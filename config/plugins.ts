@@ -24,6 +24,19 @@ const deniedTypes = [
 ];
 
 const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin => ({
+  graphql: {
+    config: {
+      endpoint: '/graphql',
+      shadowCRUD: true,
+      landingPage: env('NODE_ENV') !== 'production',
+      depthLimit: 10,
+      defaultLimit: 25,
+      maxLimit: 100,
+      apolloServer: {
+        introspection: env('NODE_ENV') !== 'production',
+      },
+    },
+  },
   'users-permissions': {
     config: {
       jwtManagement: 'refresh',
@@ -34,6 +47,21 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
   },
   upload: {
     config: {
+      provider: 'cloudinary',
+      providerOptions: {
+        cloud_name: env('CLOUDINARY_NAME'),
+        api_key: env('CLOUDINARY_KEY'),
+        api_secret: env('CLOUDINARY_SECRET'),
+      },
+      actionOptions: {
+        upload: {
+          folder: env('CLOUDINARY_FOLDER', 'emergency-services'),
+        },
+        uploadStream: {
+          folder: env('CLOUDINARY_FOLDER', 'emergency-services'),
+        },
+        delete: {},
+      },
       security: {
         allowedTypes: allowedMediaTypes,
         deniedTypes,

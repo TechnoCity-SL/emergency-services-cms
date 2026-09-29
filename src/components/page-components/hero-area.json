@@ -1,0 +1,47 @@
+{
+  "collectionName": "components_page_components_hero_areas",
+  "info": {
+    "displayName": "Hero Area",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "TagLine": {
+      "type": "string",
+      "default": "24/7 National Emergency Hotline",
+      "maxLength": 50,
+      "required": true
+    },
+    "Header": {
+      "type": "string",
+      "default": "Compassionate Care in Urgent Moments.",
+      "required": true
+    },
+    "HighlightedCharactors": {
+      "type": "string",
+      "default": "Urgent Moments."
+    },
+    "PrimaryButton": {
+      "type": "component",
+      "component": "atoms.button",
+      "repeatable": false
+    },
+    "SecondaryButton": {
+      "type": "component",
+      "component": "atoms.button",
+      "repeatable": false
+    },
+    "HeroStats": {
+      "type": "component",
+      "component": "molecules.stats-and-numbers",
+      "repeatable": true
+    },
+    "HeroImage": {
+      "type": "component",
+      "component": "molecules.image",
+      "repeatable": false,
+      "required": true
+    }
+  },
+  "config": {}
+}

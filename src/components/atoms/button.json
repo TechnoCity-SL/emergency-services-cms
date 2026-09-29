@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_atoms_buttons",
+  "info": {
+    "displayName": "Button",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "IconLeft": {
+      "type": "string"
+    },
+    "Text": {
+      "type": "string"
+    },
+    "IconRight": {
+      "type": "string"
+    },
+    "Url": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "config": {}
+}

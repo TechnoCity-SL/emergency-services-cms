@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_molecules_images",
+  "info": {
+    "displayName": "Image",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "DesktopImage": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "MobileImage": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "Alt": {
+      "type": "string"
+    },
+    "Url": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}
