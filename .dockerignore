@@ -1,0 +1,13 @@
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+.cache
+.strapi
+.tmp
+build
+dist
+node_modules
+npm-debug.log*
+*.log

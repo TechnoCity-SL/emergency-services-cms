@@ -9,8 +9,26 @@ const config: Core.Config.Middlewares = [
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          'img-src': ["'self'", 'data:', 'blob:', 'res.cloudinary.com'],
-          'media-src': ["'self'", 'data:', 'blob:', 'res.cloudinary.com'],
+          'connect-src': ["'self'", 'https:', 'apollo-server-landing-page.cdn.apollographql.com'],
+          'img-src': [
+            "'self'",
+            'data:',
+            'blob:',
+            'market-assets.strapi.io',
+            'res.cloudinary.com',
+            'apollo-server-landing-page.cdn.apollographql.com',
+          ],
+          'media-src': ["'self'", 'data:', 'blob:', 'market-assets.strapi.io', 'res.cloudinary.com'],
+          'script-src': [
+            "'self'",
+            "'unsafe-inline'",
+            'apollo-server-landing-page.cdn.apollographql.com',
+            'embeddable-sandbox.cdn.apollographql.com',
+            'embeddable-explorer.cdn.apollographql.com',
+          ],
+          'style-src': ["'self'", "'unsafe-inline'", 'apollo-server-landing-page.cdn.apollographql.com'],
+          'frame-src': ["'self'", 'sandbox.embed.apollographql.com'],
+          upgradeInsecureRequests: null,
         },
       },
     },

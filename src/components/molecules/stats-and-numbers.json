@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_molecules_stats_and_numbers",
+  "info": {
+    "displayName": "StatsAndNumbers",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "Stat": {
+      "type": "string",
+      "maxLength": 10,
+      "required": true
+    },
+    "StatDescription": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "config": {}
+}
