@@ -28,12 +28,12 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
     config: {
       endpoint: '/graphql',
       shadowCRUD: true,
-      landingPage: env('NODE_ENV') !== 'production',
+      landingPage: env.bool('GRAPHQL_LANDING_PAGE', env('NODE_ENV') !== 'production'),
       depthLimit: 10,
       defaultLimit: 25,
       maxLimit: 100,
       apolloServer: {
-        introspection: env('NODE_ENV') !== 'production',
+        introspection: env.bool('GRAPHQL_INTROSPECTION', env('NODE_ENV') !== 'production'),
       },
     },
   },
