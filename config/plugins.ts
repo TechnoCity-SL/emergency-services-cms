@@ -53,6 +53,7 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
         api_key: env('CLOUDINARY_KEY'),
         api_secret: env('CLOUDINARY_SECRET'),
       },
+      //hgf
       actionOptions: {
         upload: {
           folder: env('CLOUDINARY_FOLDER', 'emergency-services'),
