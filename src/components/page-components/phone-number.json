@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_page_components_phone_numbers",
+  "info": {
+    "displayName": "PhoneNumber",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "number": {
+      "type": "string",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": [
+        "primary",
+        "secondary"
+      ],
+      "default": "primary",
+      "required": true
+    }
+  },
+  "config": {}
+}

@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_page_components_emergency_cards",
+  "info": {
+    "displayName": "EmergencyCard",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "heading": {
+      "type": "string",
+      "default": "Heading",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "default": "description",
+      "maxLength": 100,
+      "required": true
+    },
+    "Button": {
+      "type": "component",
+      "component": "atoms.button",
+      "repeatable": false
+    }
+  },
+  "config": {}
+}

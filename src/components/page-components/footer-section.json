@@ -1,0 +1,46 @@
+{
+  "collectionName": "components_page_components_footer_sections",
+  "info": {
+    "displayName": "FooterSection",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "brandName": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "socialLinks": {
+      "type": "component",
+      "component": "molecules.social-link",
+      "repeatable": true
+    },
+    "copyrightText": {
+      "type": "string",
+      "required": true
+    },
+    "quickLinksLabel": {
+      "type": "string",
+      "required": true
+    },
+    "quickLinks": {
+      "type": "component",
+      "component": "page-components.quick-links",
+      "repeatable": true
+    },
+    "helpLabel": {
+      "type": "string",
+      "required": true
+    },
+    "phoneNumbers": {
+      "type": "component",
+      "component": "page-components.phone-number",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

@@ -15,6 +15,22 @@
       "type": "component",
       "component": "page-components.hero-area",
       "repeatable": false
+    },
+    "servicesSection": {
+      "type": "component",
+      "component": "page-components.services-section",
+      "repeatable": false
+    },
+    "regionalCoverageSection": {
+      "type": "component",
+      "component": "page-components.regional-coverage-section",
+      "repeatable": false,
+      "required": true
+    },
+    "StatItem": {
+      "type": "component",
+      "component": "page-components.stat-item",
+      "repeatable": false
     }
   }
 }

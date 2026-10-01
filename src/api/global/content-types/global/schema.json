@@ -1,0 +1,28 @@
+{
+  "kind": "singleType",
+  "collectionName": "globals",
+  "info": {
+    "singularName": "global",
+    "pluralName": "globals",
+    "displayName": "Global",
+    "description": "Site-wide content shared by every page"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "header": {
+      "type": "component",
+      "component": "page-components.header-section",
+      "repeatable": false,
+      "required": true
+    },
+    "footer": {
+      "type": "component",
+      "component": "page-components.footer-section",
+      "repeatable": false,
+      "required": true
+    }
+  }
+}

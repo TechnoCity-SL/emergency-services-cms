@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_page_components_regional_coverage_sections",
+  "info": {
+    "displayName": "regionalCoverageSection",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "tagLine": {
+      "type": "string",
+      "required": true
+    },
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 100,
+      "required": true
+    },
+    "RegionCard": {
+      "type": "component",
+      "component": "page-components.region-card",
+      "repeatable": true,
+      "required": true,
+      "min": 1
+    }
+  },
+  "config": {}
+}

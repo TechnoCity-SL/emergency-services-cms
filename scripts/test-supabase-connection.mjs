@@ -23,11 +23,30 @@ const env = Object.fromEntries(
     })
 );
 
+const placeholderHost =
+  !env.DATABASE_HOST ||
+  env.DATABASE_HOST.includes('your-project-region') ||
+  env.DATABASE_USERNAME?.includes('your-project-ref');
+
+if (placeholderHost) {
+  console.error(
+    'connection_failed Replace DATABASE_HOST and DATABASE_USERNAME in .env with your real Supabase session-pooler values. .env.example placeholders will not connect.'
+  );
+  process.exit(1);
+}
+
+const ssl =
+  env.DATABASE_SSL === 'true'
+    ? { rejectUnauthorized: env.DATABASE_SSL_REJECT_UNAUTHORIZED !== 'false' }
+    : undefined;
+
 const client = new Client({
-  connectionString: env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: env.DATABASE_SSL_REJECT_UNAUTHORIZED !== 'false',
-  },
+  host: env.DATABASE_HOST,
+  port: Number(env.DATABASE_PORT || 5432),
+  database: env.DATABASE_NAME || 'postgres',
+  user: env.DATABASE_USERNAME,
+  password: env.DATABASE_PASSWORD,
+  ssl,
 });
 
 try {

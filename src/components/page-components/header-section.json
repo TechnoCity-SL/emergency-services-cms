@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_page_components_header_sections",
+  "info": {
+    "displayName": "HeaderSection",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "brandName": {
+      "type": "string",
+      "required": true
+    },
+    "navLinks": {
+      "type": "component",
+      "component": "page-components.quick-links",
+      "repeatable": true
+    },
+    "callButton": {
+      "type": "component",
+      "component": "atoms.button",
+      "repeatable": false,
+      "required": true
+    },
+    "iconLinks": {
+      "type": "component",
+      "component": "molecules.social-link",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

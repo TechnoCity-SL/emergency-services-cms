@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_page_components_stat_items",
+  "info": {
+    "displayName": "StatItem",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "stats": {
+      "type": "component",
+      "component": "molecules.stats-and-numbers",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}
