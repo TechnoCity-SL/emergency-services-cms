@@ -22,8 +22,9 @@
     "RegionCard": {
       "type": "component",
       "component": "page-components.region-card",
-      "repeatable": false,
-      "required": true
+      "repeatable": true,
+      "required": true,
+      "min": 1
     }
   },
   "config": {}

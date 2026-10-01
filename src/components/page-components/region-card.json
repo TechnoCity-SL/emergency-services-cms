@@ -28,13 +28,11 @@
     },
     "latitude": {
       "type": "decimal",
-      "required": true,
-      "unique": true
+      "required": true
     },
     "longitude": {
       "type": "decimal",
-      "required": true,
-      "unique": true
+      "required": true
     }
   },
   "config": {}

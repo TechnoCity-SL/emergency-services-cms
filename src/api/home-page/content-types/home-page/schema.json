@@ -31,12 +31,6 @@
       "type": "component",
       "component": "page-components.stat-item",
       "repeatable": false
-    },
-    "FooterSection": {
-      "type": "component",
-      "component": "page-components.footer-section",
-      "repeatable": false,
-      "required": true
     }
   }
 }

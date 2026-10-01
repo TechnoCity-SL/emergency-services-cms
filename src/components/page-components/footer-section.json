@@ -14,13 +14,23 @@
       "type": "text",
       "required": true
     },
-    "quickLinksLabel": {
-      "type": "string"
+    "socialLinks": {
+      "type": "component",
+      "component": "molecules.social-link",
+      "repeatable": true
     },
-    "QuickLink": {
+    "copyrightText": {
+      "type": "string",
+      "required": true
+    },
+    "quickLinksLabel": {
+      "type": "string",
+      "required": true
+    },
+    "quickLinks": {
       "type": "component",
       "component": "page-components.quick-links",
-      "repeatable": false
+      "repeatable": true
     },
     "helpLabel": {
       "type": "string",

@@ -3,7 +3,10 @@ import type { Core } from '@strapi/strapi';
 import { isDatabaseClientKind } from '@strapi/database';
 
 const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Database => {
-  const client = env('DATABASE_CLIENT', 'sqlite');
+  // Local development uses SQLite; production (NODE_ENV=production) uses the hosted
+  // Supabase Postgres. Set DATABASE_CLIENT explicitly to override either default.
+  const isProduction = env('NODE_ENV') === 'production';
+  const client = env('DATABASE_CLIENT', isProduction ? 'postgres' : 'sqlite');
 
   if (!isDatabaseClientKind(client)) {
     throw new Error(

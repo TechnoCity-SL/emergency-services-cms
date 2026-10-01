@@ -28,6 +28,19 @@ export interface MoleculesImage extends Struct.ComponentSchema {
   };
 }
 
+export interface MoleculesSocialLink extends Struct.ComponentSchema {
+  collectionName: 'components_molecules_social_links';
+  info: {
+    displayName: 'SocialLink';
+    icon: 'apps';
+  };
+  attributes: {
+    icon: Schema.Attribute.String & Schema.Attribute.Required;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    url: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface MoleculesStatsAndNumbers extends Struct.ComponentSchema {
   collectionName: 'components_molecules_stats_and_numbers';
   info: {
@@ -73,14 +86,31 @@ export interface PageComponentsFooterSection extends Struct.ComponentSchema {
   };
   attributes: {
     brandName: Schema.Attribute.String & Schema.Attribute.Required;
+    copyrightText: Schema.Attribute.String & Schema.Attribute.Required;
     description: Schema.Attribute.Text & Schema.Attribute.Required;
     helpLabel: Schema.Attribute.String & Schema.Attribute.Required;
     phoneNumbers: Schema.Attribute.Component<
       'page-components.phone-number',
       true
     >;
-    QuickLink: Schema.Attribute.Component<'page-components.quick-links', false>;
-    quickLinksLabel: Schema.Attribute.String;
+    quickLinks: Schema.Attribute.Component<'page-components.quick-links', true>;
+    quickLinksLabel: Schema.Attribute.String & Schema.Attribute.Required;
+    socialLinks: Schema.Attribute.Component<'molecules.social-link', true>;
+  };
+}
+
+export interface PageComponentsHeaderSection extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_header_sections';
+  info: {
+    displayName: 'HeaderSection';
+    icon: 'apps';
+  };
+  attributes: {
+    brandName: Schema.Attribute.String & Schema.Attribute.Required;
+    callButton: Schema.Attribute.Component<'atoms.button', false> &
+      Schema.Attribute.Required;
+    iconLinks: Schema.Attribute.Component<'molecules.social-link', true>;
+    navLinks: Schema.Attribute.Component<'page-components.quick-links', true>;
   };
 }
 
@@ -119,6 +149,9 @@ export interface PageComponentsPhoneNumber extends Struct.ComponentSchema {
   attributes: {
     number: Schema.Attribute.String & Schema.Attribute.Required;
     url: Schema.Attribute.String & Schema.Attribute.Required;
+    variant: Schema.Attribute.Enumeration<['primary', 'secondary']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'primary'>;
   };
 }
 
@@ -145,12 +178,8 @@ export interface PageComponentsRegionCard extends Struct.ComponentSchema {
     districtsLabel: Schema.Attribute.String & Schema.Attribute.Required;
     hotline: Schema.Attribute.String & Schema.Attribute.Required;
     hotlineLabel: Schema.Attribute.String & Schema.Attribute.Required;
-    latitude: Schema.Attribute.Decimal &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    longitude: Schema.Attribute.Decimal &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
+    latitude: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    longitude: Schema.Attribute.Decimal & Schema.Attribute.Required;
     provinceName: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
@@ -171,9 +200,15 @@ export interface PageComponentsRegionalCoverageSection
     heading: Schema.Attribute.String & Schema.Attribute.Required;
     RegionCard: Schema.Attribute.Component<
       'page-components.region-card',
-      false
+      true
     > &
-      Schema.Attribute.Required;
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
     tagLine: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
@@ -242,7 +277,7 @@ export interface PageComponentsStatItem extends Struct.ComponentSchema {
     icon: 'apps';
   };
   attributes: {
-    stats: Schema.Attribute.Component<'page-components.stats-section', true>;
+    stats: Schema.Attribute.Component<'molecules.stats-and-numbers', true>;
   };
 }
 
@@ -260,9 +295,11 @@ declare module '@strapi/strapi' {
     export interface ComponentSchemas {
       'atoms.button': AtomsButton;
       'molecules.image': MoleculesImage;
+      'molecules.social-link': MoleculesSocialLink;
       'molecules.stats-and-numbers': MoleculesStatsAndNumbers;
       'page-components.emergency-card': PageComponentsEmergencyCard;
       'page-components.footer-section': PageComponentsFooterSection;
+      'page-components.header-section': PageComponentsHeaderSection;
       'page-components.hero-area': PageComponentsHeroArea;
       'page-components.phone-number': PageComponentsPhoneNumber;
       'page-components.quick-links': PageComponentsQuickLinks;

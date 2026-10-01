@@ -8,7 +8,7 @@
   "attributes": {
     "stats": {
       "type": "component",
-      "component": "page-components.stats-section",
+      "component": "molecules.stats-and-numbers",
       "repeatable": true
     }
   },
