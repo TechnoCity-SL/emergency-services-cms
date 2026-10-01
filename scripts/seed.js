@@ -369,6 +369,71 @@ const contactPage = {
   },
 };
 
+// Home Page copy, matching the website's built-in fallback (emergency-services/src/data/home.data.ts).
+// Seeded as a draft: the hero and fleet images are required, so an editor uploads them and
+// presses Publish. Until then the website keeps showing its built-in copy.
+const homePage = {
+  Hero: {
+    TagLine: '24/7 National Emergency Hotline',
+    Header: 'Compassionate Care in Urgent Moments.',
+    HighlightedCharactors: 'Urgent Moments.',
+    Description:
+      'Farzan Janaza & Emergency Services G Ltd provides immediate, high-visibility medical transport and religious burial assistance across Sri Lanka.',
+    PrimaryButton: { Text: '077 302 4111', Url: 'tel:0773024111' },
+    SecondaryButton: { Text: '074 242 1818', Url: 'tel:0742421818' },
+    HeroStats: [
+      { Stat: '12K+', StatDescription: 'Active Followers' },
+      { Stat: '24/7', StatDescription: 'Availability' },
+      { Stat: '100%', StatDescription: 'Commitment' },
+    ],
+    HeroImage: { Alt: 'Farzan emergency fleet parked in a professional row at a medical facility' },
+  },
+  servicesSection: {
+    Heading: 'Our Dedicated Services',
+    Subheading:
+      'Providing swift and respectful support through specialized medical and community transportation units.',
+    ServiceCard: [
+      {
+        tag: 'Community mission',
+        title: 'Free Janaza Service',
+        description:
+          'Offering completely free, respectful transportation for the deceased and their grieving families, ensuring dignity in difficult times.',
+        features: 'Island-wide coverage, 24-hour dispatch',
+        Button: [{ Text: 'Learn more', Url: '/services#free-janaza-service' }],
+      },
+    ],
+    EmergencyCard: {
+      heading: 'Emergency Transport',
+      description:
+        'Critical patient transfers from hospitals to hometowns or specialist centers with life-support.',
+      Button: { IconLeft: 'call', Text: 'Emergency Call', Url: 'tel:0773024111' },
+    },
+    OxygenServiceCard: {
+      heading: 'Oxygen Services',
+      description: 'Immediate oxygen supply and portable cylinders for home use or patient transfer.',
+      Button: { IconLeft: 'call', Text: 'Request Supply', Url: 'tel:0742421818' },
+    },
+    SpecializedFleetCard: { title: 'Specialized Fleet', badge: '9+ Active Units' },
+  },
+  regionalCoverageSection: {
+    tagLine: 'Regional network',
+    heading: 'Serving Every Corner of Sri Lanka',
+    description: 'Hover over or select a region on the map to view its coverage and contact details.',
+    selectTitle: 'Select Area',
+    selectHint: 'Hover over or choose a hub on the map to see coverage details.',
+    districtsLabel: 'Service districts',
+    hotlineLabel: 'National hotline',
+  },
+  StatItem: {
+    stats: [
+      { Stat: '5,000+', StatDescription: 'Free Janaza Missions' },
+      { Stat: '24/7', StatDescription: 'Dispatched Teams' },
+      { Stat: '15+', StatDescription: 'Service Locations' },
+      { Stat: '100%', StatDescription: 'Free of Charge' },
+    ],
+  },
+};
+
 const seedSingleType = async (strapi, uid, data, { draftAndPublish }) => {
   const existing = await strapi.documents(uid).findFirst();
   if (existing) {
@@ -423,6 +488,7 @@ const main = async () => {
   try {
     await seedGlobal(app);
     await seedCoordinatorsAndRegions(app);
+    await seedSingleType(app, 'api::home-page.home-page', homePage, { draftAndPublish: false });
     await seedSingleType(app, 'api::coverage-page.coverage-page', coveragePage, { draftAndPublish: true });
     await seedSingleType(app, 'api::services-page.services-page', servicesPage, { draftAndPublish: true });
     await seedSingleType(app, 'api::contact-page.contact-page', contactPage, { draftAndPublish: true });

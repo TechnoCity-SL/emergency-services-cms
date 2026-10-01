@@ -6,6 +6,13 @@
   },
   "options": {},
   "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Specialized Fleet"
+    },
+    "badge": {
+      "type": "string"
+    },
     "image": {
       "type": "media",
       "multiple": true,
