@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_page_components_fleet_readiness_cards",
+  "info": {
+    "displayName": "FleetReadinessCard",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "badge": {
+      "type": "string"
+    },
+    "metrics": {
+      "type": "component",
+      "component": "molecules.metric",
+      "repeatable": true
+    },
+    "note": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

@@ -2,7 +2,8 @@
   "collectionName": "components_page_components_regional_coverage_sections",
   "info": {
     "displayName": "regionalCoverageSection",
-    "icon": "apps"
+    "icon": "apps",
+    "description": "Map pins and cards come from the Regions collection."
   },
   "options": {},
   "attributes": {
@@ -16,15 +17,24 @@
     },
     "description": {
       "type": "text",
-      "maxLength": 100,
-      "required": true
-    },
-    "RegionCard": {
-      "type": "component",
-      "component": "page-components.region-card",
-      "repeatable": true,
       "required": true,
-      "min": 1
+      "maxLength": 100
+    },
+    "selectTitle": {
+      "type": "string",
+      "default": "Select Area"
+    },
+    "selectHint": {
+      "type": "string",
+      "default": "Hover or click a region on the map"
+    },
+    "districtsLabel": {
+      "type": "string",
+      "default": "Districts"
+    },
+    "hotlineLabel": {
+      "type": "string",
+      "default": "Hotline"
     }
   },
   "config": {}

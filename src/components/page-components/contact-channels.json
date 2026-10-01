@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_page_components_contact_channels",
+  "info": {
+    "displayName": "ContactChannels",
+    "icon": "apps",
+    "description": "Hotline cards come from Global > hotlines."
+  },
+  "options": {},
+  "attributes": {
+    "callButtonLabel": {
+      "type": "string",
+      "default": "Call {number} Now"
+    },
+    "whatsappTitle": {
+      "type": "string",
+      "required": true
+    },
+    "whatsappDescription": {
+      "type": "text"
+    },
+    "whatsappButton": {
+      "type": "component",
+      "component": "atoms.button",
+      "repeatable": false
+    },
+    "policyTag": {
+      "type": "string"
+    },
+    "policyText": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

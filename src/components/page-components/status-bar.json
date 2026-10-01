@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_page_components_status_bars",
+  "info": {
+    "displayName": "StatusBar",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "liveStatus": {
+      "type": "string",
+      "required": true
+    },
+    "tagline": {
+      "type": "string"
+    },
+    "highlights": {
+      "type": "component",
+      "component": "molecules.label",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

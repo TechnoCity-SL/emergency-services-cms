@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_molecules_steps",
+  "info": {
+    "displayName": "Step",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

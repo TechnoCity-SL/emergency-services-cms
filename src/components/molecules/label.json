@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_molecules_labels",
+  "info": {
+    "displayName": "Label",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "config": {}
+}

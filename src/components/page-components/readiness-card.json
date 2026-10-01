@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_page_components_readiness_cards",
+  "info": {
+    "displayName": "ReadinessCard",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "badge": {
+      "type": "string"
+    },
+    "items": {
+      "type": "component",
+      "component": "molecules.feature",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

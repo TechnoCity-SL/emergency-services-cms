@@ -1,0 +1,41 @@
+{
+  "collectionName": "components_page_components_service_items",
+  "info": {
+    "displayName": "ServiceItem",
+    "icon": "apps",
+    "description": "Call button dials the chosen Global hotline."
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "hotline": {
+      "type": "enumeration",
+      "enum": [
+        "primary",
+        "secondary"
+      ],
+      "default": "primary",
+      "required": true
+    },
+    "buttonStyle": {
+      "type": "enumeration",
+      "enum": [
+        "primary",
+        "secondary",
+        "neutral"
+      ],
+      "default": "primary",
+      "required": true
+    }
+  },
+  "config": {}
+}

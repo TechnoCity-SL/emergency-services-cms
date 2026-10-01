@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_page_components_steps_sections",
+  "info": {
+    "displayName": "StepsSection",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "component",
+      "component": "molecules.section-heading",
+      "repeatable": false,
+      "required": true
+    },
+    "steps": {
+      "type": "component",
+      "component": "molecules.step",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

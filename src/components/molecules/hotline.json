@@ -1,18 +1,22 @@
 {
-  "collectionName": "components_page_components_phone_numbers",
+  "collectionName": "components_molecules_hotlines",
   "info": {
-    "displayName": "PhoneNumber",
-    "icon": "apps"
+    "displayName": "Hotline",
+    "icon": "apps",
+    "description": "Phone line shown site-wide. Call links are built from the number."
   },
   "options": {},
   "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
     "number": {
       "type": "string",
       "required": true
     },
-    "url": {
-      "type": "string",
-      "required": true
+    "description": {
+      "type": "text"
     },
     "variant": {
       "type": "enumeration",

@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_page_components_hubs_sections",
+  "info": {
+    "displayName": "HubsSection",
+    "icon": "apps",
+    "description": "Cards come from the Regions collection (Show On Coverage Page)."
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "component",
+      "component": "molecules.section-heading",
+      "repeatable": false,
+      "required": true
+    },
+    "badge": {
+      "type": "string"
+    },
+    "unitsLabel": {
+      "type": "string",
+      "default": "Units"
+    },
+    "coordinatorLabel": {
+      "type": "string",
+      "default": "Coordinator:"
+    },
+    "callButtonLabel": {
+      "type": "string",
+      "default": "Call Hub"
+    }
+  },
+  "config": {}
+}

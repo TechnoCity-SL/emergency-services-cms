@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_page_components_page_heros",
+  "info": {
+    "displayName": "PageHero",
+    "icon": "apps",
+    "description": "Hotline buttons come from Global > hotlines."
+  },
+  "options": {},
+  "attributes": {
+    "badge": {
+      "type": "string"
+    },
+    "secondaryBadge": {
+      "type": "string"
+    },
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "highlightedText": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "showHotlines": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "config": {}
+}

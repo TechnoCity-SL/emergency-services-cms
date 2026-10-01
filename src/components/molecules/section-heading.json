@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_molecules_section_headings",
+  "info": {
+    "displayName": "SectionHeading",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "tagLine": {
+      "type": "string"
+    },
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

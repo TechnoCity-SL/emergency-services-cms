@@ -36,10 +36,8 @@
       "type": "string",
       "required": true
     },
-    "phoneNumbers": {
-      "type": "component",
-      "component": "page-components.phone-number",
-      "repeatable": true
+    "availabilityLabel": {
+      "type": "string"
     }
   },
   "config": {}
