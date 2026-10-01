@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_page_components_services_list_sections",
+  "info": {
+    "displayName": "ServicesListSection",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "component",
+      "component": "molecules.section-heading",
+      "repeatable": false,
+      "required": true
+    },
+    "services": {
+      "type": "component",
+      "component": "page-components.service-item",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

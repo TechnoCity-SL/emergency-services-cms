@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_page_components_cta_banners",
+  "info": {
+    "displayName": "CtaBanner",
+    "icon": "apps",
+    "description": "Red call-to-action banner. Phone buttons come from Global > hotlines."
+  },
+  "options": {},
+  "attributes": {
+    "badge": {
+      "type": "string"
+    },
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

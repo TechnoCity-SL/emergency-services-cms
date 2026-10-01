@@ -23,6 +23,16 @@
       "component": "page-components.footer-section",
       "repeatable": false,
       "required": true
+    },
+    "hotlines": {
+      "type": "component",
+      "component": "molecules.hotline",
+      "repeatable": true,
+      "required": true,
+      "min": 1
+    },
+    "whatsappUrl": {
+      "type": "string"
     }
   }
 }

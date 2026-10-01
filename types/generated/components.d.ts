@@ -14,6 +14,36 @@ export interface AtomsButton extends Struct.ComponentSchema {
   };
 }
 
+export interface MoleculesFeature extends Struct.ComponentSchema {
+  collectionName: 'components_molecules_features';
+  info: {
+    displayName: 'Feature';
+    icon: 'apps';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    icon: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface MoleculesHotline extends Struct.ComponentSchema {
+  collectionName: 'components_molecules_hotlines';
+  info: {
+    description: 'Phone line shown site-wide. Call links are built from the number.';
+    displayName: 'Hotline';
+    icon: 'apps';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    number: Schema.Attribute.String & Schema.Attribute.Required;
+    variant: Schema.Attribute.Enumeration<['primary', 'secondary']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'primary'>;
+  };
+}
+
 export interface MoleculesImage extends Struct.ComponentSchema {
   collectionName: 'components_molecules_images';
   info: {
@@ -25,6 +55,43 @@ export interface MoleculesImage extends Struct.ComponentSchema {
     DesktopImage: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
     MobileImage: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
     Url: Schema.Attribute.String;
+  };
+}
+
+export interface MoleculesLabel extends Struct.ComponentSchema {
+  collectionName: 'components_molecules_labels';
+  info: {
+    displayName: 'Label';
+    icon: 'apps';
+  };
+  attributes: {
+    text: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface MoleculesMetric extends Struct.ComponentSchema {
+  collectionName: 'components_molecules_metrics';
+  info: {
+    displayName: 'Metric';
+    icon: 'apps';
+  };
+  attributes: {
+    caption: Schema.Attribute.String;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    value: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface MoleculesSectionHeading extends Struct.ComponentSchema {
+  collectionName: 'components_molecules_section_headings';
+  info: {
+    displayName: 'SectionHeading';
+    icon: 'apps';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    tagLine: Schema.Attribute.String;
   };
 }
 
@@ -57,6 +124,81 @@ export interface MoleculesStatsAndNumbers extends Struct.ComponentSchema {
   };
 }
 
+export interface MoleculesStep extends Struct.ComponentSchema {
+  collectionName: 'components_molecules_steps';
+  info: {
+    displayName: 'Step';
+    icon: 'apps';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface PageComponentsAlertBar extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_alert_bars';
+  info: {
+    displayName: 'AlertBar';
+    icon: 'apps';
+  };
+  attributes: {
+    message: Schema.Attribute.String & Schema.Attribute.Required;
+    tag: Schema.Attribute.String;
+  };
+}
+
+export interface PageComponentsContactChannels extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_contact_channels';
+  info: {
+    description: 'Hotline cards come from Global > hotlines.';
+    displayName: 'ContactChannels';
+    icon: 'apps';
+  };
+  attributes: {
+    callButtonLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Call {number} Now'>;
+    policyTag: Schema.Attribute.String;
+    policyText: Schema.Attribute.Text;
+    whatsappButton: Schema.Attribute.Component<'atoms.button', false>;
+    whatsappDescription: Schema.Attribute.Text;
+    whatsappTitle: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface PageComponentsCoordinatorsSection
+  extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_coordinators_sections';
+  info: {
+    description: 'Cards come from the Coordinators collection (Show In Directory).';
+    displayName: 'CoordinatorsSection';
+    icon: 'apps';
+  };
+  attributes: {
+    dutyBadge: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'24/7 On Duty'>;
+    heading: Schema.Attribute.Component<'molecules.section-heading', false> &
+      Schema.Attribute.Required;
+    statusLabel: Schema.Attribute.String;
+    whatsappLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Direct WhatsApp'>;
+  };
+}
+
+export interface PageComponentsCtaBanner extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_cta_banners';
+  info: {
+    description: 'Red call-to-action banner. Phone buttons come from Global > hotlines.';
+    displayName: 'CtaBanner';
+    icon: 'apps';
+  };
+  attributes: {
+    badge: Schema.Attribute.String;
+    description: Schema.Attribute.Text;
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface PageComponentsEmergencyCard extends Struct.ComponentSchema {
   collectionName: 'components_page_components_emergency_cards';
   info: {
@@ -78,6 +220,21 @@ export interface PageComponentsEmergencyCard extends Struct.ComponentSchema {
   };
 }
 
+export interface PageComponentsFleetReadinessCard
+  extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_fleet_readiness_cards';
+  info: {
+    displayName: 'FleetReadinessCard';
+    icon: 'apps';
+  };
+  attributes: {
+    badge: Schema.Attribute.String;
+    metrics: Schema.Attribute.Component<'molecules.metric', true>;
+    note: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface PageComponentsFooterSection extends Struct.ComponentSchema {
   collectionName: 'components_page_components_footer_sections';
   info: {
@@ -85,14 +242,11 @@ export interface PageComponentsFooterSection extends Struct.ComponentSchema {
     icon: 'apps';
   };
   attributes: {
+    availabilityLabel: Schema.Attribute.String;
     brandName: Schema.Attribute.String & Schema.Attribute.Required;
     copyrightText: Schema.Attribute.String & Schema.Attribute.Required;
     description: Schema.Attribute.Text & Schema.Attribute.Required;
     helpLabel: Schema.Attribute.String & Schema.Attribute.Required;
-    phoneNumbers: Schema.Attribute.Component<
-      'page-components.phone-number',
-      true
-    >;
     quickLinks: Schema.Attribute.Component<'page-components.quick-links', true>;
     quickLinksLabel: Schema.Attribute.String & Schema.Attribute.Required;
     socialLinks: Schema.Attribute.Component<'molecules.social-link', true>;
@@ -140,18 +294,39 @@ export interface PageComponentsHeroArea extends Struct.ComponentSchema {
   };
 }
 
-export interface PageComponentsPhoneNumber extends Struct.ComponentSchema {
-  collectionName: 'components_page_components_phone_numbers';
+export interface PageComponentsHubsSection extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_hubs_sections';
   info: {
-    displayName: 'PhoneNumber';
+    description: 'Cards come from the Regions collection (Show On Coverage Page).';
+    displayName: 'HubsSection';
     icon: 'apps';
   };
   attributes: {
-    number: Schema.Attribute.String & Schema.Attribute.Required;
-    url: Schema.Attribute.String & Schema.Attribute.Required;
-    variant: Schema.Attribute.Enumeration<['primary', 'secondary']> &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'primary'>;
+    badge: Schema.Attribute.String;
+    callButtonLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Call Hub'>;
+    coordinatorLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Coordinator:'>;
+    heading: Schema.Attribute.Component<'molecules.section-heading', false> &
+      Schema.Attribute.Required;
+    unitsLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Units'>;
+  };
+}
+
+export interface PageComponentsPageHero extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_page_heros';
+  info: {
+    description: 'Hotline buttons come from Global > hotlines.';
+    displayName: 'PageHero';
+    icon: 'apps';
+  };
+  attributes: {
+    badge: Schema.Attribute.String;
+    description: Schema.Attribute.Text;
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    highlightedText: Schema.Attribute.String;
+    secondaryBadge: Schema.Attribute.String;
+    showHotlines: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
   };
 }
 
@@ -167,20 +342,16 @@ export interface PageComponentsQuickLinks extends Struct.ComponentSchema {
   };
 }
 
-export interface PageComponentsRegionCard extends Struct.ComponentSchema {
-  collectionName: 'components_page_components_region_cards';
+export interface PageComponentsReadinessCard extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_readiness_cards';
   info: {
-    displayName: 'RegionCard';
+    displayName: 'ReadinessCard';
     icon: 'apps';
   };
   attributes: {
-    districts: Schema.Attribute.String & Schema.Attribute.Required;
-    districtsLabel: Schema.Attribute.String & Schema.Attribute.Required;
-    hotline: Schema.Attribute.String & Schema.Attribute.Required;
-    hotlineLabel: Schema.Attribute.String & Schema.Attribute.Required;
-    latitude: Schema.Attribute.Decimal & Schema.Attribute.Required;
-    longitude: Schema.Attribute.Decimal & Schema.Attribute.Required;
-    provinceName: Schema.Attribute.String & Schema.Attribute.Required;
+    badge: Schema.Attribute.String;
+    items: Schema.Attribute.Component<'molecules.feature', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -188,6 +359,7 @@ export interface PageComponentsRegionalCoverageSection
   extends Struct.ComponentSchema {
   collectionName: 'components_page_components_regional_coverage_sections';
   info: {
+    description: 'Map pins and cards come from the Regions collection.';
     displayName: 'regionalCoverageSection';
     icon: 'apps';
   };
@@ -197,18 +369,15 @@ export interface PageComponentsRegionalCoverageSection
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 100;
       }>;
+    districtsLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Districts'>;
     heading: Schema.Attribute.String & Schema.Attribute.Required;
-    RegionCard: Schema.Attribute.Component<
-      'page-components.region-card',
-      true
-    > &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetMinMax<
-        {
-          min: 1;
-        },
-        number
-      >;
+    hotlineLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Hotline'>;
+    selectHint: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Hover or click a region on the map'>;
+    selectTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Select Area'>;
     tagLine: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
@@ -226,6 +395,42 @@ export interface PageComponentsServiceCard extends Struct.ComponentSchema {
     Image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     tag: Schema.Attribute.String;
     title: Schema.Attribute.String;
+  };
+}
+
+export interface PageComponentsServiceItem extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_service_items';
+  info: {
+    description: 'Call button dials the chosen Global hotline.';
+    displayName: 'ServiceItem';
+    icon: 'apps';
+  };
+  attributes: {
+    buttonStyle: Schema.Attribute.Enumeration<
+      ['primary', 'secondary', 'neutral']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'primary'>;
+    description: Schema.Attribute.Text;
+    hotline: Schema.Attribute.Enumeration<['primary', 'secondary']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'primary'>;
+    icon: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface PageComponentsServicesListSection
+  extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_services_list_sections';
+  info: {
+    displayName: 'ServicesListSection';
+    icon: 'apps';
+  };
+  attributes: {
+    heading: Schema.Attribute.Component<'molecules.section-heading', false> &
+      Schema.Attribute.Required;
+    services: Schema.Attribute.Component<'page-components.service-item', true>;
   };
 }
 
@@ -281,35 +486,84 @@ export interface PageComponentsStatItem extends Struct.ComponentSchema {
   };
 }
 
-export interface PageComponentsStatsSection extends Struct.ComponentSchema {
-  collectionName: 'components_page_components_stats_sections';
+export interface PageComponentsStationsSection extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_stations_sections';
   info: {
-    displayName: 'StatsSection';
+    description: 'Cards come from the Regions collection (Show On Contact Page).';
+    displayName: 'StationsSection';
     icon: 'apps';
   };
-  attributes: {};
+  attributes: {
+    heading: Schema.Attribute.Component<'molecules.section-heading', false> &
+      Schema.Attribute.Required;
+    statusLabel: Schema.Attribute.String;
+    unitsLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Active Units'>;
+  };
+}
+
+export interface PageComponentsStatusBar extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_status_bars';
+  info: {
+    displayName: 'StatusBar';
+    icon: 'apps';
+  };
+  attributes: {
+    highlights: Schema.Attribute.Component<'molecules.label', true>;
+    liveStatus: Schema.Attribute.String & Schema.Attribute.Required;
+    tagline: Schema.Attribute.String;
+  };
+}
+
+export interface PageComponentsStepsSection extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_steps_sections';
+  info: {
+    displayName: 'StepsSection';
+    icon: 'apps';
+  };
+  attributes: {
+    heading: Schema.Attribute.Component<'molecules.section-heading', false> &
+      Schema.Attribute.Required;
+    steps: Schema.Attribute.Component<'molecules.step', true>;
+  };
 }
 
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
       'atoms.button': AtomsButton;
+      'molecules.feature': MoleculesFeature;
+      'molecules.hotline': MoleculesHotline;
       'molecules.image': MoleculesImage;
+      'molecules.label': MoleculesLabel;
+      'molecules.metric': MoleculesMetric;
+      'molecules.section-heading': MoleculesSectionHeading;
       'molecules.social-link': MoleculesSocialLink;
       'molecules.stats-and-numbers': MoleculesStatsAndNumbers;
+      'molecules.step': MoleculesStep;
+      'page-components.alert-bar': PageComponentsAlertBar;
+      'page-components.contact-channels': PageComponentsContactChannels;
+      'page-components.coordinators-section': PageComponentsCoordinatorsSection;
+      'page-components.cta-banner': PageComponentsCtaBanner;
       'page-components.emergency-card': PageComponentsEmergencyCard;
+      'page-components.fleet-readiness-card': PageComponentsFleetReadinessCard;
       'page-components.footer-section': PageComponentsFooterSection;
       'page-components.header-section': PageComponentsHeaderSection;
       'page-components.hero-area': PageComponentsHeroArea;
-      'page-components.phone-number': PageComponentsPhoneNumber;
+      'page-components.hubs-section': PageComponentsHubsSection;
+      'page-components.page-hero': PageComponentsPageHero;
       'page-components.quick-links': PageComponentsQuickLinks;
-      'page-components.region-card': PageComponentsRegionCard;
+      'page-components.readiness-card': PageComponentsReadinessCard;
       'page-components.regional-coverage-section': PageComponentsRegionalCoverageSection;
       'page-components.service-card': PageComponentsServiceCard;
+      'page-components.service-item': PageComponentsServiceItem;
+      'page-components.services-list-section': PageComponentsServicesListSection;
       'page-components.services-section': PageComponentsServicesSection;
       'page-components.specialized-fleet-card': PageComponentsSpecializedFleetCard;
       'page-components.stat-item': PageComponentsStatItem;
-      'page-components.stats-section': PageComponentsStatsSection;
+      'page-components.stations-section': PageComponentsStationsSection;
+      'page-components.status-bar': PageComponentsStatusBar;
+      'page-components.steps-section': PageComponentsStepsSection;
     }
   }
 }

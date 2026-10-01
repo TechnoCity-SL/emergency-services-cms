@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_page_components_coordinators_sections",
+  "info": {
+    "displayName": "CoordinatorsSection",
+    "icon": "apps",
+    "description": "Cards come from the Coordinators collection (Show In Directory)."
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "component",
+      "component": "molecules.section-heading",
+      "repeatable": false,
+      "required": true
+    },
+    "statusLabel": {
+      "type": "string"
+    },
+    "dutyBadge": {
+      "type": "string",
+      "default": "24/7 On Duty"
+    },
+    "whatsappLabel": {
+      "type": "string",
+      "default": "Direct WhatsApp"
+    }
+  },
+  "config": {}
+}

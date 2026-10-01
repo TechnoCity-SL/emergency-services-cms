@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "coordinators",
+  "info": {
+    "singularName": "coordinator",
+    "pluralName": "coordinators",
+    "displayName": "Coordinator",
+    "description": "People who run each hub. Phone and WhatsApp are used on every page that shows them."
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "district": {
+      "type": "string"
+    },
+    "area": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "whatsapp": {
+      "type": "string"
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "showInDirectory": {
+      "type": "boolean",
+      "default": true
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    },
+    "regions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::region.region",
+      "mappedBy": "coordinator"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_page_components_stations_sections",
+  "info": {
+    "displayName": "StationsSection",
+    "icon": "apps",
+    "description": "Cards come from the Regions collection (Show On Contact Page)."
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "component",
+      "component": "molecules.section-heading",
+      "repeatable": false,
+      "required": true
+    },
+    "statusLabel": {
+      "type": "string"
+    },
+    "unitsLabel": {
+      "type": "string",
+      "default": "Active Units"
+    }
+  },
+  "config": {}
+}

@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_molecules_features",
+  "info": {
+    "displayName": "Feature",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

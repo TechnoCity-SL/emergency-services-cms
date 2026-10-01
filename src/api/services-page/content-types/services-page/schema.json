@@ -1,0 +1,42 @@
+{
+  "kind": "singleType",
+  "collectionName": "services_pages",
+  "info": {
+    "singularName": "services-page",
+    "pluralName": "services-pages",
+    "displayName": "Services Page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": {
+      "type": "component",
+      "component": "page-components.page-hero",
+      "repeatable": false,
+      "required": true
+    },
+    "readinessCard": {
+      "type": "component",
+      "component": "page-components.readiness-card",
+      "repeatable": false
+    },
+    "servicesSection": {
+      "type": "component",
+      "component": "page-components.services-list-section",
+      "repeatable": false,
+      "required": true
+    },
+    "stepsSection": {
+      "type": "component",
+      "component": "page-components.steps-section",
+      "repeatable": false
+    },
+    "ctaBanner": {
+      "type": "component",
+      "component": "page-components.cta-banner",
+      "repeatable": false
+    }
+  }
+}

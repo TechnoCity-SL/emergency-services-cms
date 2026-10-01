@@ -1,0 +1,43 @@
+{
+  "kind": "singleType",
+  "collectionName": "contact_pages",
+  "info": {
+    "singularName": "contact-page",
+    "pluralName": "contact-pages",
+    "displayName": "Contact Page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "alertBar": {
+      "type": "component",
+      "component": "page-components.alert-bar",
+      "repeatable": false
+    },
+    "hero": {
+      "type": "component",
+      "component": "page-components.page-hero",
+      "repeatable": false,
+      "required": true
+    },
+    "fleetReadiness": {
+      "type": "component",
+      "component": "page-components.fleet-readiness-card",
+      "repeatable": false
+    },
+    "contactChannels": {
+      "type": "component",
+      "component": "page-components.contact-channels",
+      "repeatable": false,
+      "required": true
+    },
+    "stationsSection": {
+      "type": "component",
+      "component": "page-components.stations-section",
+      "repeatable": false,
+      "required": true
+    }
+  }
+}

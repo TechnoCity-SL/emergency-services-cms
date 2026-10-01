@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_page_components_alert_bars",
+  "info": {
+    "displayName": "AlertBar",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "tag": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "config": {}
+}

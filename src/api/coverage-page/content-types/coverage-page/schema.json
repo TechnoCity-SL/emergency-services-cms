@@ -1,0 +1,48 @@
+{
+  "kind": "singleType",
+  "collectionName": "coverage_pages",
+  "info": {
+    "singularName": "coverage-page",
+    "pluralName": "coverage-pages",
+    "displayName": "Coverage Page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "statusBar": {
+      "type": "component",
+      "component": "page-components.status-bar",
+      "repeatable": false
+    },
+    "hero": {
+      "type": "component",
+      "component": "page-components.page-hero",
+      "repeatable": false,
+      "required": true
+    },
+    "hubsSection": {
+      "type": "component",
+      "component": "page-components.hubs-section",
+      "repeatable": false,
+      "required": true
+    },
+    "coordinatorsSection": {
+      "type": "component",
+      "component": "page-components.coordinators-section",
+      "repeatable": false,
+      "required": true
+    },
+    "ctaBanner": {
+      "type": "component",
+      "component": "page-components.cta-banner",
+      "repeatable": false
+    },
+    "features": {
+      "type": "component",
+      "component": "molecules.feature",
+      "repeatable": true
+    }
+  }
+}

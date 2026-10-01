@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "regions",
+  "info": {
+    "singularName": "region",
+    "pluralName": "regions",
+    "displayName": "Region",
+    "description": "Hubs and stations. Feeds the Home map, Coverage hubs and Contact stations."
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "province": {
+      "type": "string",
+      "required": true
+    },
+    "areas": {
+      "type": "text"
+    },
+    "description": {
+      "type": "text"
+    },
+    "activeUnits": {
+      "type": "integer"
+    },
+    "stationCode": {
+      "type": "string"
+    },
+    "coordinator": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::coordinator.coordinator",
+      "inversedBy": "regions"
+    },
+    "latitude": {
+      "type": "decimal"
+    },
+    "longitude": {
+      "type": "decimal"
+    },
+    "showOnCoveragePage": {
+      "type": "boolean",
+      "default": true
+    },
+    "showOnContactPage": {
+      "type": "boolean",
+      "default": false
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
