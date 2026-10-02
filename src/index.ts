@@ -1,5 +1,6 @@
 import type { Core } from '@strapi/strapi';
 import { applyFieldHelp } from './field-help';
+import { registerWebsiteRevalidation } from './revalidate';
 
 // Content the public website reads. Granted to the Public role on every boot so a fresh
 // database (local SQLite or Supabase) never needs permissions ticked by hand.
@@ -54,5 +55,6 @@ export default {
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
     await grantPublicReadAccess(strapi);
     await applyFieldHelp(strapi);
+    registerWebsiteRevalidation(strapi);
   },
 };
