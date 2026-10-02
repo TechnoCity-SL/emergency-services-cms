@@ -16,12 +16,10 @@
     },
     "heading": {
       "type": "string",
-      "default": "Heading",
       "required": true
     },
     "description": {
       "type": "text",
-      "default": "description",
       "maxLength": 100,
       "required": true
     },

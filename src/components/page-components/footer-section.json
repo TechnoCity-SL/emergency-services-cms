@@ -25,7 +25,8 @@
     },
     "quickLinksLabel": {
       "type": "string",
-      "required": true
+      "required": true,
+      "default": "Navigation"
     },
     "quickLinks": {
       "type": "component",
@@ -34,10 +35,12 @@
     },
     "helpLabel": {
       "type": "string",
-      "required": true
+      "required": true,
+      "default": "24/7 Hotlines"
     },
     "availabilityLabel": {
-      "type": "string"
+      "type": "string",
+      "default": "Available Islandwide"
     }
   },
   "config": {}

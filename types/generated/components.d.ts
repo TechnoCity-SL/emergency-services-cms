@@ -211,11 +211,8 @@ export interface PageComponentsEmergencyCard extends Struct.ComponentSchema {
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 100;
-      }> &
-      Schema.Attribute.DefaultTo<'description'>;
-    heading: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'Heading'>;
+      }>;
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
     icon: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
   };
 }
@@ -242,13 +239,18 @@ export interface PageComponentsFooterSection extends Struct.ComponentSchema {
     icon: 'apps';
   };
   attributes: {
-    availabilityLabel: Schema.Attribute.String;
+    availabilityLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Available Islandwide'>;
     brandName: Schema.Attribute.String & Schema.Attribute.Required;
     copyrightText: Schema.Attribute.String & Schema.Attribute.Required;
     description: Schema.Attribute.Text & Schema.Attribute.Required;
-    helpLabel: Schema.Attribute.String & Schema.Attribute.Required;
+    helpLabel: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'24/7 Hotlines'>;
     quickLinks: Schema.Attribute.Component<'page-components.quick-links', true>;
-    quickLinksLabel: Schema.Attribute.String & Schema.Attribute.Required;
+    quickLinksLabel: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Navigation'>;
     socialLinks: Schema.Attribute.Component<'molecules.social-link', true>;
   };
 }
@@ -275,6 +277,7 @@ export interface PageComponentsHeroArea extends Struct.ComponentSchema {
     icon: 'apps';
   };
   attributes: {
+    Description: Schema.Attribute.Text;
     Header: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'Compassionate Care in Urgent Moments.'>;
@@ -471,7 +474,10 @@ export interface PageComponentsSpecializedFleetCard
     icon: 'apps';
   };
   attributes: {
+    badge: Schema.Attribute.String;
     image: Schema.Attribute.Media<'images', true> & Schema.Attribute.Required;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Specialized Fleet'>;
   };
 }
 
