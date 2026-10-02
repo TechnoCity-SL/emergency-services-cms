@@ -10,8 +10,9 @@ import type { Core } from '@strapi/strapi';
  *   - on media library updates (replacing an image file keeps its entry but changes the URL).
  * Draft saves are ignored — the public site only ever shows published content.
  *
- * Events are debounced so a bulk publish triggers a single regeneration. After the website
- * confirms, each returned page is requested once so the next visitor gets the fresh version.
+ * Events are debounced so a bulk publish triggers a single regeneration. The website checks it
+ * can reach this CMS, expires its cache and regenerates every page itself; the pages it returns
+ * are requested once more from here as a backup, so no page is left waiting for a visitor.
  *
  * Configure with env vars (Fly secrets):
  *   WEBSITE_URL        e.g. https://farzancare.com
@@ -70,17 +71,13 @@ export function registerWebsiteRevalidation(strapi: Core.Strapi) {
           method: 'POST',
           headers: { Authorization: `Bearer ${secret}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({ model: models.join(','), event: Object.values(changes).join(',') }),
-          signal: AbortSignal.timeout(15_000),
+          // The website pings this CMS before answering, so allow for that round trip.
+          signal: AbortSignal.timeout(30_000),
         });
         if (!response.ok) throw new Error(`website responded ${response.status}`);
         const result = (await response.json()) as { paths?: string[] };
         strapi.log.info(`[revalidate] website regenerating after changes to: ${models.join(', ')}`);
-        // Two passes: the first visit serves the old page and triggers regeneration in the
-        // background; the second (a few seconds later) confirms the fresh page is cached.
-        const paths = result.paths ?? [];
-        await warm(paths);
-        await sleep(5_000);
-        await warm(paths);
+        await warm(result.paths ?? []);
         return;
       } catch (error) {
         strapi.log.warn(`[revalidate] attempt ${attempt}/${MAX_ATTEMPTS} failed: ${(error as Error).message}`);
