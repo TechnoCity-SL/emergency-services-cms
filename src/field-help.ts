@@ -237,6 +237,10 @@ const CONTENT_TYPES: Record<string, ModelHelp> = {
       placeholder: 'WhatsApp {name}',
     },
     mapLabel: { label: 'Coverage map (screen reader)' },
+    mapResetLabel: {
+      label: 'Map "show all" button',
+      description: 'Shown on the home page map after a pin is clicked; zooms back out to the whole island.',
+    },
   },
 
   'api::legal-page.legal-page': {

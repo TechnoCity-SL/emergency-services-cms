@@ -1167,6 +1167,13 @@ export interface ApiUiLabelUiLabel extends Struct.SingleTypeSchema {
         };
       }> &
       Schema.Attribute.DefaultTo<'Coverage map'>;
+    mapResetLabel: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<'Show all of Sri Lanka'>;
     notFoundMessage: Schema.Attribute.Text &
       Schema.Attribute.SetPluginOptions<{
         i18n: {

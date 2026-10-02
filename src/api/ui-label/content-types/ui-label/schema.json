@@ -141,6 +141,15 @@
           "localized": true
         }
       }
+    },
+    "mapResetLabel": {
+      "type": "string",
+      "default": "Show all of Sri Lanka",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }

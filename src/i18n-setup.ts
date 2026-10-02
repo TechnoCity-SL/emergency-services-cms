@@ -37,6 +37,7 @@ const UI_LABELS_EN = {
   callPersonLabel: 'Call {name}',
   whatsappPersonLabel: 'WhatsApp {name}',
   mapLabel: 'Coverage map',
+  mapResetLabel: 'Show all of Sri Lanka',
 };
 
 // Strapi "blocks" rich-text helpers.
