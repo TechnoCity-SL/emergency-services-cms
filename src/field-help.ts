@@ -28,7 +28,7 @@ const CONTENT_TYPES: Record<string, ModelHelp> = {
     hotlines: {
       label: 'Hotlines',
       description:
-        'At least one is required. Used everywhere a call button or hotline card appears (hero, CTA banners, contact page, service cards). Mark the main number as "primary".',
+        'At least one is required. Used everywhere a call button or hotline card appears (hero, CTA banners, contact page, service cards). The first hotline is the main (red) line, the second the backup (blue) line. Phone numbers always come from the English version — in other languages only translate the name and description.',
     },
     whatsappUrl: {
       label: 'WhatsApp link',
@@ -208,6 +208,45 @@ const CONTENT_TYPES: Record<string, ModelHelp> = {
       label: 'Hubs',
       description: 'Hubs this person coordinates. You can also set this from each Region.',
     },
+  },
+
+  'api::ui-label.ui-label': {
+    languageLabel: { label: 'Language switcher label', description: 'Screen-reader name of the language switcher in the header.' },
+    callNumberLabel: {
+      label: 'Service call button',
+      description: 'Button on each Services page card. {number} is replaced with the hotline number.',
+      placeholder: 'Call {number}',
+    },
+    notFoundTitle: { label: '404 page title' },
+    notFoundMessage: { label: '404 page message' },
+    backToHomeLabel: { label: '"Back to homepage" link' },
+    errorTitle: { label: 'Error page title' },
+    errorMessage: { label: 'Error page message' },
+    tryAgainLabel: { label: '"Try again" button' },
+    openMenuLabel: { label: 'Open menu (screen reader)', description: 'Read aloud for the mobile menu button.' },
+    closeMenuLabel: { label: 'Close menu (screen reader)' },
+    mainNavLabel: { label: 'Main menu (screen reader)' },
+    callPersonLabel: {
+      label: 'Call someone (screen reader)',
+      description: '{name} is replaced with the coordinator or hub name.',
+      placeholder: 'Call {name}',
+    },
+    whatsappPersonLabel: {
+      label: 'WhatsApp someone (screen reader)',
+      description: '{name} is replaced with the coordinator or hub name.',
+      placeholder: 'WhatsApp {name}',
+    },
+    mapLabel: { label: 'Coverage map (screen reader)' },
+  },
+
+  'api::legal-page.legal-page': {
+    page: { label: 'Page', description: 'Which footer link opens this entry. One entry per page.' },
+    title: { label: 'Title', placeholder: 'Privacy Policy' },
+    notice: {
+      label: 'Notice',
+      description: 'Highlighted box above the text (e.g. "Draft — pending legal review"). Leave empty to hide it.',
+    },
+    body: { label: 'Content', description: 'Use Heading 2 for section titles. Links to /contact etc. open in the visitor\'s language.' },
   },
 };
 

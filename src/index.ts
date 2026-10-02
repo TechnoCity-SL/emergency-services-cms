@@ -1,5 +1,6 @@
 import type { Core } from '@strapi/strapi';
 import { applyFieldHelp } from './field-help';
+import { setupI18n } from './i18n-setup';
 import { registerWebsiteRevalidation } from './revalidate';
 
 // Content the public website reads. Granted to the Public role on every boot so a fresh
@@ -14,6 +15,9 @@ const PUBLIC_READ_ACTIONS = [
   'api::region.region.findOne',
   'api::coordinator.coordinator.find',
   'api::coordinator.coordinator.findOne',
+  'api::ui-label.ui-label.find',
+  'api::legal-page.legal-page.find',
+  'api::legal-page.legal-page.findOne',
 ];
 
 const grantPublicReadAccess = async (strapi: Core.Strapi) => {
@@ -53,6 +57,7 @@ export default {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    await setupI18n(strapi);
     await grantPublicReadAccess(strapi);
     await applyFieldHelp(strapi);
     registerWebsiteRevalidation(strapi);

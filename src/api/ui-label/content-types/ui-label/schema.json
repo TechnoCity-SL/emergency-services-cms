@@ -1,0 +1,146 @@
+{
+  "kind": "singleType",
+  "collectionName": "ui_labels",
+  "info": {
+    "singularName": "ui-label",
+    "pluralName": "ui-labels",
+    "displayName": "UI Labels",
+    "description": "Small interface texts (buttons, error pages, screen-reader labels) translated per language."
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "languageLabel": {
+      "type": "string",
+      "default": "Language",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "callNumberLabel": {
+      "type": "string",
+      "default": "Call {number}",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "notFoundTitle": {
+      "type": "string",
+      "default": "Page not found",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "notFoundMessage": {
+      "type": "text",
+      "default": "This page doesn't exist, but help is still one tap away.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "backToHomeLabel": {
+      "type": "string",
+      "default": "Back to homepage",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "errorTitle": {
+      "type": "string",
+      "default": "Something went wrong",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "errorMessage": {
+      "type": "text",
+      "default": "This page hit a problem. Please try again — our hotlines remain available 24/7.",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "tryAgainLabel": {
+      "type": "string",
+      "default": "Try again",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "openMenuLabel": {
+      "type": "string",
+      "default": "Open menu",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "closeMenuLabel": {
+      "type": "string",
+      "default": "Close menu",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "mainNavLabel": {
+      "type": "string",
+      "default": "Main navigation",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "callPersonLabel": {
+      "type": "string",
+      "default": "Call {name}",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "whatsappPersonLabel": {
+      "type": "string",
+      "default": "WhatsApp {name}",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "mapLabel": {
+      "type": "string",
+      "default": "Coverage map",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}
