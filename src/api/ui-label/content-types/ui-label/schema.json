@@ -150,6 +150,24 @@
           "localized": true
         }
       }
+    },
+    "freeServiceLabel": {
+      "type": "string",
+      "default": "Free service",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "partialPaymentLabel": {
+      "type": "string",
+      "default": "Partially paid",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }

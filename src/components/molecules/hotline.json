@@ -3,7 +3,7 @@
   "info": {
     "displayName": "Hotline",
     "icon": "apps",
-    "description": "Phone line shown site-wide. Call links are built from the number."
+    "description": "Phone line. The first hotline is the main number used on every call button; any others are district lines."
   },
   "options": {},
   "attributes": {
@@ -18,14 +18,8 @@
     "description": {
       "type": "text"
     },
-    "variant": {
-      "type": "enumeration",
-      "enum": [
-        "primary",
-        "secondary"
-      ],
-      "default": "primary",
-      "required": true
+    "districts": {
+      "type": "text"
     }
   },
   "config": {}

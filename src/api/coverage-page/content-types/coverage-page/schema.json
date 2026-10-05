@@ -47,11 +47,10 @@
         }
       }
     },
-    "coordinatorsSection": {
+    "partnersSection": {
       "type": "component",
-      "component": "page-components.coordinators-section",
+      "component": "page-components.partners-section",
       "repeatable": false,
-      "required": true,
       "pluginOptions": {
         "i18n": {
           "localized": true

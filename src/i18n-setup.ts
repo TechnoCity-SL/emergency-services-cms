@@ -38,6 +38,8 @@ const UI_LABELS_EN = {
   whatsappPersonLabel: 'WhatsApp {name}',
   mapLabel: 'Coverage map',
   mapResetLabel: 'Show all of Sri Lanka',
+  freeServiceLabel: 'Free service',
+  partialPaymentLabel: 'Partially paid',
 };
 
 // Strapi "blocks" rich-text helpers.

@@ -5,20 +5,14 @@
 //   NODE_ENV=production npm run seed  -> Supabase (uses the production DATABASE_* settings)
 const { compileStrapi, createStrapi } = require('@strapi/strapi');
 
+// One islandwide number. District lines can be added later (with "districts" filled in) and
+// the website will show them on the Contact page and route district calls to them.
 const hotlines = [
   {
-    label: 'Primary 24/7 Hotline',
+    label: '24/7 Main Hotline',
     number: '077 302 4111',
     description:
-      'Immediate Janaza ambulance dispatch, critical hospital transfers, and emergency oxygen support.',
-    variant: 'primary',
-  },
-  {
-    label: 'Secondary Dispatch Line',
-    number: '074 242 1818',
-    description:
-      'Direct backup line for inter-hospital transit coordination, standby queries, and long-distance transfers.',
-    variant: 'secondary',
+      'One number for the whole island. Our dispatch team sends the nearest Farzan Janaza or partner society vehicle for Janaza transport, emergency transfers and oxygen support.',
   },
 ];
 
@@ -38,21 +32,20 @@ const global = {
     ],
   },
   footer: {
-    brandName: 'Farzan Janaza and Emergency Services G Ltd.',
+    brandName: 'Farzan Janaza & Emergency',
     description:
       'Serving humanity with dignity, compassion, and care — always free, always available. Trusted across Sri Lanka for rapid emergency and funeral transfer response.',
     socialLinks: [
       { icon: 'support_agent', label: 'Support', url: '/contact' },
       { icon: 'chat', label: 'Chat with us', url: 'https://wa.me/94773024111' },
     ],
-    copyrightText: '© 2024 Farzan Janaza and Emergency Services G Ltd. All Rights Reserved.',
+    copyrightText: '© 2026 Farzan Janaza & Emergency. All Rights Reserved.',
     quickLinksLabel: 'Navigation',
     quickLinks: [
       { label: 'Home', url: '/' },
       { label: 'Services', url: '/services' },
       { label: 'Coverage Area', url: '/coverage' },
       { label: 'Contact Us', url: '/contact' },
-      { label: 'Admin Portal', url: '/admin' },
     ],
     helpLabel: '24/7 Hotlines',
     availabilityLabel: 'Available Islandwide',
@@ -61,134 +54,81 @@ const global = {
   whatsappUrl: 'https://wa.me/94773024111',
 };
 
-// Coordinators are referenced by key from the regions below.
-const coordinators = {
-  rizwan: {
-    name: 'Br. Rizwan Hajiyar',
-    district: 'Western District',
-    area: 'Colombo Central & Dehiwala Liaison',
-    phone: '077 302 4111',
-    sortOrder: 1,
-  },
-  farook: {
-    name: 'Br. Farook & Team',
-    district: 'Eastern District',
-    area: 'Akkaraipattu, Kalmunai & Ampara Hub',
-    phone: '074 242 1818',
-    sortOrder: 2,
-  },
-  abdullah: {
-    name: 'Br. Abdullah',
-    district: 'Central District',
-    area: 'Kandy, Galaha & Nuwara Eliya',
-    phone: '077 648 2264',
-    sortOrder: 3,
-  },
-  ajmal: {
-    name: 'Br. Ajmal Ali',
-    district: 'Southern District',
-    area: 'Galle, Matara & Hambantota Area',
-    phone: '077 766 6641',
-    sortOrder: 4,
-  },
-  regionalDesk: {
-    name: 'Regional Desk',
-    phone: '077 302 4111',
-    showInDirectory: false,
-    sortOrder: 5,
-  },
-  unitedJanaza: {
-    name: 'United Janaza Partner',
-    phone: '077 302 4111',
-    showInDirectory: false,
-    sortOrder: 6,
-  },
-};
-
+// Farzan Janaza's own vehicle bases. Vehicle counts are left empty until confirmed.
 const regions = [
   {
-    name: 'Colombo & Gampaha Hub',
+    name: 'Colombo Base',
     province: 'Western Province',
-    areas: 'Maradana, Dehiwala, Colombo National Hospital, Panadura',
-    description:
-      'Coordinating major hospital discharges (National Hospital, CSTH Kalubowila, Castle Street) and western province transfers.',
-    activeUnits: 14,
+    district: 'Colombo',
+    areas: 'Colombo, Dehiwala, Maradana, Colombo National Hospital',
+    description: 'Farzan Janaza vehicles serving Colombo and the Western Province.',
     stationCode: 'HQ',
-    coordinator: 'rizwan',
     latitude: 6.9271,
     longitude: 79.8612,
     showOnContactPage: true,
     sortOrder: 1,
   },
   {
-    name: 'Akkaraipattu & Kalmunai',
+    name: 'Akkaraipattu Base',
     province: 'Eastern Province',
-    areas: 'Ampara, Kalmunai, Batticaloa Base & Pottuvil',
-    description:
-      'Primary eastern fleet serving Akkaraipattu, Kalmunai, Addalaichenai, Pottuvil, and long-haul runs back to Colombo.',
-    activeUnits: 12,
+    district: 'Ampara',
+    areas: 'Akkaraipattu, Kalmunai, Addalaichenai, Pottuvil',
+    description: 'Farzan Janaza vehicles serving Akkaraipattu and the Ampara District.',
     stationCode: 'Base 02',
-    coordinator: 'farook',
     latitude: 7.2167,
     longitude: 81.85,
     showOnContactPage: true,
     sortOrder: 2,
   },
-  {
-    name: 'Kandy & Highlands',
-    province: 'Central Province',
-    areas: 'Peradeniya, Kandy Teaching Hospital, Gampola, Nuwara Eliya',
-    description:
-      'Covering Kandy General Hospital, Peradeniya, Gampola, Matale, and winding highland routes with oxygen assistance.',
-    activeUnits: 8,
-    stationCode: 'Base 03',
-    coordinator: 'abdullah',
-    latitude: 7.2906,
-    longitude: 80.6337,
-    showOnContactPage: true,
-    sortOrder: 3,
-  },
-  {
-    name: 'Galle & Matara Hub',
-    province: 'Southern Province',
-    areas: 'Karapitiya Hospital, Weligama, Hambantota Express Transfer',
-    description:
-      'Rapid response network for southern coastal towns, Karapitiya Teaching Hospital, and expressway patient relocations.',
-    activeUnits: 6,
-    stationCode: 'Base 04',
-    coordinator: 'ajmal',
-    latitude: 6.0535,
-    longitude: 80.221,
-    showOnContactPage: true,
-    sortOrder: 4,
-  },
-  {
-    name: 'Kurunegala & Northern Desk',
-    province: 'North & NW Provinces',
-    areas: 'Kurunegala, Puttalam, Anuradhapura, Mannar, Jaffna',
-    activeUnits: 8,
-    coordinator: 'regionalDesk',
-    latitude: 7.4863,
-    longitude: 80.3623,
-    sortOrder: 5,
-  },
-  {
-    name: 'Kegalle & Badulla Desk',
-    province: 'Sabaragamuwa & Uva',
-    areas: 'Kegalle Grand Mosque, Rathnapura, Kahawatta, Badulla',
-    activeUnits: 4,
-    coordinator: 'unitedJanaza',
-    latitude: 7.2513,
-    longitude: 80.3464,
-    sortOrder: 6,
-  },
 ];
+
+// Partner societies registered with Farzan Janaza (from the operations sheet, October 2026).
+// Coordinates are not known yet — the website places these pins in the middle of the district.
+const partner = (name, province, district, vehicleNumber, hotline, presidentName) => ({
+  name,
+  province,
+  district,
+  hotline,
+  ...(presidentName && { presidentName }),
+  vehicles: [{ vehicleNumber }],
+});
+
+const partners = [
+  partner('Al Wadha Janaza Welfare Services', 'North Western Province', 'Puttalam', 'DAI-7471', '072 523 1777', 'Riswan Brother'),
+  partner('Barakath Welfare Society, Kattankudy', 'Eastern Province', 'Batticaloa', 'LF-7990', '077 179 1335', 'Asmi Brother'),
+  partner('Gintota Muhaitheen Jumma Masjid Janaza Service', 'Southern Province', 'Galle', 'PW-4646', '077 902 1808', 'Fairoos Brother'),
+  partner('Hemmathagama Masjid Welfare Association', 'Central Province', 'Kandy', 'PJ-0650', '077 710 9909', 'Mansoor Hajiyar'),
+  partner('ISWAA Janaza and Emergency Service', 'Eastern Province', 'Ampara', 'PF-2441', '070 699 9909', 'Ajmal Moulavi'),
+  partner('Janaza Service - New Elpitiya, Gelioya', 'Central Province', 'Kandy', '251-8018', '077 715 1815', 'Rizan Brother'),
+  partner('Kalkudah Janaza Welfare Services', 'Eastern Province', 'Batticaloa', 'DAH-8012', '077 232 4252', 'Nawfer Brother'),
+  partner('Janaza Foundation Kalpitiya', 'North Western Province', 'Puttalam', 'PF-3445', '077 063 9800', 'Thariq Hajiyar'),
+  partner('Kattankudy Janaza Welfare Society', 'Eastern Province', 'Batticaloa', 'PE-6367', '076 825 6424', 'Hameed Hajiyar'),
+  partner('Katugoda Janaza Service', 'Southern Province', 'Galle', 'PY-5665', '077 943 4404'),
+  partner('Madulbowa Bathibiya Janaza Welfare Association', 'Sabaragamuwa Province', 'Kegalle', '251-1711', '077 918 7173'),
+  partner('Maruthamunai Janaza Welfare Society', 'Eastern Province', 'Ampara', 'DAG-8405', '077 218 5817'),
+  partner('Poruthota Janaza Welfare Association - PJWA', 'Western Province', 'Gampaha', 'DAG-4335', '077 160 7799'),
+  partner('Silmiyapura Janaza Society', 'North Western Province', 'Puttalam', '20-3600', '077 718 6486'),
+  partner('Social Services & Janaza Society, Colombo-15', 'Western Province', 'Colombo', 'PX-4803', '077 367 9684'),
+  partner('Thoppur Janaza Welfare Society', 'Eastern Province', 'Trincomalee', 'PE-2527', '077 235 4774'),
+  partner('Vavuniya Pattanichoor Janaza Welfare Co-Op Society', 'Northern Province', 'Vavuniya', 'GS-9075', '076 925 5042'),
+  partner('Chilaw Janaza Welfare Association', 'North Western Province', 'Puttalam', 'DAH-8145', '077 784 1284'),
+].map((entry, index) => ({ ...entry, sortOrder: index + 1 }));
 
 const ctaBanner = {
   badge: 'Zero Fees · Zero Bureaucracy',
   heading: 'Need an Ambulance or Janaza Unit Immediately?',
   description:
-    'Call now with your current location and hospital ward details. Our nearest regional unit will be mobilized within minutes.',
+    'Call the main hotline with your current location and hospital ward details. We will send the nearest Farzan Janaza or partner society vehicle.',
+};
+
+const partnersSection = {
+  heading: {
+    tagLine: 'Partner Network',
+    heading: 'Partner Janaza Societies',
+    description:
+      'Janaza societies across Sri Lanka registered with Farzan Janaza, each running dedicated vehicles for this network. Search by district or society, or call the main hotline and we will arrange the nearest vehicle.',
+  },
+  badge: 'Registered with Farzan Janaza',
 };
 
 const coveragePage = {
@@ -205,22 +145,13 @@ const coveragePage = {
   },
   hubsSection: {
     heading: {
-      tagLine: 'Direct Regional Command',
-      heading: 'District Coordinators & Quick-Call Hubs',
+      tagLine: 'Farzan Janaza Fleet',
+      heading: 'Our Vehicle Bases',
       description:
-        'Direct point-of-contact for immediate emergency dispatch, inter-hospital liaison, and Janaza transit facilitation.',
+        'Farzan Janaza vehicles are based in Colombo and Akkaraipattu. All requests go through the main hotline.',
     },
-    badge: '48+ Fleet Vehicles Islandwide',
   },
-  coordinatorsSection: {
-    heading: {
-      tagLine: 'Dedicated Humanitarian Network',
-      heading: 'Verified District Coordinators',
-      description:
-        'Directly reach verified volunteer leaders who oversee fleet dispatches, hospital paperwork facilitation, and family support in your district.',
-    },
-    statusLabel: 'All Personnel Active Now',
-  },
+  partnersSection,
   ctaBanner,
   features: [
     {
@@ -273,7 +204,6 @@ const servicesPage = {
         title: 'Free Janaza Transport',
         description:
           '24/7 respectful and dignified transfer of deceased loved ones across Sri Lanka with escorts, ventilated interior, and complete care.',
-        hotline: 'primary',
         buttonStyle: 'primary',
       },
       {
@@ -281,7 +211,6 @@ const servicesPage = {
         title: 'Emergency Medical Ambulance',
         description:
           'Urgent critical patient transfers between hospitals and homes with onboard oxygen, vital signs monitoring, and trained drivers.',
-        hotline: 'secondary',
         buttonStyle: 'secondary',
       },
       {
@@ -289,7 +218,6 @@ const servicesPage = {
         title: 'Oxygen Cylinder Support',
         description:
           'Immediate doorstep delivery and refills of medical oxygen cylinders and regulators for home emergencies or hospital shortages.',
-        hotline: 'primary',
         buttonStyle: 'neutral',
       },
     ],
@@ -305,12 +233,12 @@ const servicesPage = {
       {
         title: 'Call Hotline',
         description:
-          'Dial 077 302 4111 or 074 242 1818 with patient/deceased location and destination.',
+          'Dial 077 302 4111 with the patient or deceased location and the destination.',
       },
       {
         title: 'Dispatch Nearest Unit',
         description:
-          'Our coordinator assigns the closest available vehicle and shares driver details & ETA.',
+          'Our dispatch team assigns the closest Farzan Janaza or partner society vehicle and shares the driver details.',
       },
       {
         title: 'Safe Free Transfer',
@@ -354,18 +282,18 @@ const contactPage = {
     whatsappDescription:
       'Share patient live location or hospital discharge paperwork directly with duty dispatchers.',
     whatsappButton: { IconLeft: 'chat', Text: 'Open WhatsApp Chat', Url: 'https://wa.me/94773024111' },
+    districtHotlinesTitle: 'District Hotlines',
     policyTag: 'Strict Humanitarian Policy',
     policyText:
       '100% Free Humanitarian Emergency & Janaza Service across Sri Lanka — Zero charges, zero tips, no hidden fees for anyone.',
   },
   stationsSection: {
     heading: {
-      tagLine: 'Strategic Fleet Distribution',
-      heading: 'Key District Command Stations',
+      tagLine: 'Farzan Janaza Fleet',
+      heading: 'Our Vehicle Bases',
       description:
-        'Ambulance bases strategically stationed across the island to minimize response times during bereavement and urgent transit.',
+        'Farzan Janaza vehicles are based in Colombo and Akkaraipattu, with partner society vehicles across the island.',
     },
-    statusLabel: 'National Grid Status: Operational',
   },
 };
 
@@ -378,9 +306,9 @@ const homePage = {
     Header: 'Compassionate Care in Urgent Moments.',
     HighlightedCharactors: 'Urgent Moments.',
     Description:
-      'Farzan Janaza & Emergency Services G Ltd provides immediate, high-visibility medical transport and religious burial assistance across Sri Lanka.',
-    PrimaryButton: { Text: '077 302 4111', Url: 'tel:0773024111' },
-    SecondaryButton: { Text: '074 242 1818', Url: 'tel:0742421818' },
+      'Farzan Janaza & Emergency and its partner societies provide free Janaza transport and emergency medical transport across Sri Lanka.',
+    PrimaryButton: { IconLeft: 'call', Text: '077 302 4111', Url: 'tel:0773024111' },
+    SecondaryButton: { IconLeft: 'location_on', Text: 'Find a Vehicle Near You', Url: '/coverage' },
     HeroStats: [
       { Stat: '12K+', StatDescription: 'Active Followers' },
       { Stat: '24/7', StatDescription: 'Availability' },
@@ -411,18 +339,21 @@ const homePage = {
     OxygenServiceCard: {
       heading: 'Oxygen Services',
       description: 'Immediate oxygen supply and portable cylinders for home use or patient transfer.',
-      Button: { IconLeft: 'call', Text: 'Request Supply', Url: 'tel:0742421818' },
+      Button: { IconLeft: 'call', Text: 'Request Supply', Url: 'tel:0773024111' },
     },
     SpecializedFleetCard: { title: 'Specialized Fleet', badge: '9+ Active Units' },
   },
   regionalCoverageSection: {
     tagLine: 'Regional network',
     heading: 'Serving Every Corner of Sri Lanka',
-    description: 'Hover over or select a region on the map to view its coverage and contact details.',
+    description: 'Farzan Janaza bases and partner society vehicles across the island.',
     selectTitle: 'Select Area',
     selectHint: 'Hover over or choose a hub on the map to see coverage details.',
     districtsLabel: 'Service districts',
-    hotlineLabel: 'National hotline',
+    hotlineLabel: 'Hotline',
+    baseLabel: 'Farzan Janaza base',
+    partnerLabel: 'Partner society',
+    vehiclesLabel: 'Vehicles',
   },
   StatItem: {
     stats: [
@@ -464,22 +395,34 @@ const seedGlobal = async (strapi) => {
   console.log(`updated ${uid} (added hotlines)`);
 };
 
-const seedCoordinatorsAndRegions = async (strapi) => {
-  if ((await strapi.documents('api::region.region').count()) > 0) {
-    console.log('skip    api::region.region + api::coordinator.coordinator (already has content)');
+const seedRegions = async (strapi) => {
+  const uid = 'api::region.region';
+  if ((await strapi.documents(uid).count()) > 0) {
+    console.log(`skip    ${uid} (already has content)`);
     return;
   }
-  const ids = {};
-  for (const [key, data] of Object.entries(coordinators)) {
-    const created = await strapi.documents('api::coordinator.coordinator').create({ data });
-    ids[key] = created.documentId;
+  for (const data of regions) await strapi.documents(uid).create({ data });
+  console.log(`created ${regions.length} Farzan bases`);
+};
+
+const seedPartners = async (strapi) => {
+  const uid = 'api::partner.partner';
+  if ((await strapi.documents(uid).count()) > 0) {
+    console.log(`skip    ${uid} (already has content)`);
+    return;
   }
-  for (const { coordinator, ...data } of regions) {
-    await strapi
-      .documents('api::region.region')
-      .create({ data: { ...data, coordinator: ids[coordinator] } });
-  }
-  console.log(`created ${Object.keys(coordinators).length} coordinators, ${regions.length} regions`);
+  for (const data of partners) await strapi.documents(uid).create({ data });
+  console.log(`created ${partners.length} partner societies`);
+};
+
+// Databases seeded before the partner network existed: add the new Coverage section as a draft
+// so an editor can review it and press Publish. Existing content is never changed.
+const addPartnersSection = async (strapi) => {
+  const uid = 'api::coverage-page.coverage-page';
+  const existing = await strapi.documents(uid).findFirst({ populate: ['partnersSection'] });
+  if (!existing || existing.partnersSection) return;
+  await strapi.documents(uid).update({ documentId: existing.documentId, data: { partnersSection } });
+  console.log(`updated ${uid} (added partnersSection as a draft — open Coverage Page and press Publish)`);
 };
 
 const main = async () => {
@@ -487,9 +430,11 @@ const main = async () => {
   app.log.level = 'error';
   try {
     await seedGlobal(app);
-    await seedCoordinatorsAndRegions(app);
+    await seedRegions(app);
+    await seedPartners(app);
     await seedSingleType(app, 'api::home-page.home-page', homePage, { draftAndPublish: false });
     await seedSingleType(app, 'api::coverage-page.coverage-page', coveragePage, { draftAndPublish: true });
+    await addPartnersSection(app);
     await seedSingleType(app, 'api::services-page.services-page', servicesPage, { draftAndPublish: true });
     await seedSingleType(app, 'api::contact-page.contact-page', contactPage, { draftAndPublish: true });
   } finally {

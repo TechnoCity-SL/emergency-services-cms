@@ -30,17 +30,15 @@ export interface MoleculesFeature extends Struct.ComponentSchema {
 export interface MoleculesHotline extends Struct.ComponentSchema {
   collectionName: 'components_molecules_hotlines';
   info: {
-    description: 'Phone line shown site-wide. Call links are built from the number.';
+    description: 'Phone line. The first hotline is the main number used on every call button; any others are district lines.';
     displayName: 'Hotline';
     icon: 'apps';
   };
   attributes: {
     description: Schema.Attribute.Text;
+    districts: Schema.Attribute.Text;
     label: Schema.Attribute.String & Schema.Attribute.Required;
     number: Schema.Attribute.String & Schema.Attribute.Required;
-    variant: Schema.Attribute.Enumeration<['primary', 'secondary']> &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'primary'>;
   };
 }
 
@@ -136,6 +134,21 @@ export interface MoleculesStep extends Struct.ComponentSchema {
   };
 }
 
+export interface MoleculesVehicle extends Struct.ComponentSchema {
+  collectionName: 'components_molecules_vehicles';
+  info: {
+    description: 'One vehicle a partner society runs for this network.';
+    displayName: 'Vehicle';
+    icon: 'car';
+  };
+  attributes: {
+    payment: Schema.Attribute.Enumeration<['free', 'partially_paid']>;
+    paymentNote: Schema.Attribute.String;
+    vehicleNumber: Schema.Attribute.String & Schema.Attribute.Required;
+    vehicleType: Schema.Attribute.String;
+  };
+}
+
 export interface PageComponentsAlertBar extends Struct.ComponentSchema {
   collectionName: 'components_page_components_alert_bars';
   info: {
@@ -151,37 +164,20 @@ export interface PageComponentsAlertBar extends Struct.ComponentSchema {
 export interface PageComponentsContactChannels extends Struct.ComponentSchema {
   collectionName: 'components_page_components_contact_channels';
   info: {
-    description: 'Hotline cards come from Global > hotlines.';
+    description: 'The main hotline card and any district lines come from Global > hotlines.';
     displayName: 'ContactChannels';
     icon: 'apps';
   };
   attributes: {
     callButtonLabel: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Call {number} Now'>;
+    districtHotlinesTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'District Hotlines'>;
     policyTag: Schema.Attribute.String;
     policyText: Schema.Attribute.Text;
     whatsappButton: Schema.Attribute.Component<'atoms.button', false>;
     whatsappDescription: Schema.Attribute.Text;
     whatsappTitle: Schema.Attribute.String & Schema.Attribute.Required;
-  };
-}
-
-export interface PageComponentsCoordinatorsSection
-  extends Struct.ComponentSchema {
-  collectionName: 'components_page_components_coordinators_sections';
-  info: {
-    description: 'Cards come from the Coordinators collection (Show In Directory).';
-    displayName: 'CoordinatorsSection';
-    icon: 'apps';
-  };
-  attributes: {
-    dutyBadge: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'24/7 On Duty'>;
-    heading: Schema.Attribute.Component<'molecules.section-heading', false> &
-      Schema.Attribute.Required;
-    statusLabel: Schema.Attribute.String;
-    whatsappLabel: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Direct WhatsApp'>;
   };
 }
 
@@ -300,19 +296,18 @@ export interface PageComponentsHeroArea extends Struct.ComponentSchema {
 export interface PageComponentsHubsSection extends Struct.ComponentSchema {
   collectionName: 'components_page_components_hubs_sections';
   info: {
-    description: 'Cards come from the Regions collection (Show On Coverage Page).';
-    displayName: 'HubsSection';
+    description: 'Cards come from the Farzan Bases collection (Show On Coverage Page).';
+    displayName: 'BasesSection';
     icon: 'apps';
   };
   attributes: {
     badge: Schema.Attribute.String;
     callButtonLabel: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Call Hub'>;
-    coordinatorLabel: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Coordinator:'>;
+      Schema.Attribute.DefaultTo<'Call Hotline'>;
     heading: Schema.Attribute.Component<'molecules.section-heading', false> &
       Schema.Attribute.Required;
-    unitsLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Units'>;
+    unitsLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Vehicles'>;
   };
 }
 
@@ -330,6 +325,35 @@ export interface PageComponentsPageHero extends Struct.ComponentSchema {
     highlightedText: Schema.Attribute.String;
     secondaryBadge: Schema.Attribute.String;
     showHotlines: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+  };
+}
+
+export interface PageComponentsPartnersSection extends Struct.ComponentSchema {
+  collectionName: 'components_page_components_partners_sections';
+  info: {
+    description: 'Cards come from the Partner Societies collection (Show On Website).';
+    displayName: 'PartnersSection';
+    icon: 'apps';
+  };
+  attributes: {
+    allDistrictsLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'All districts'>;
+    badge: Schema.Attribute.String;
+    callButtonLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Call Society'>;
+    districtFilterLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'District'>;
+    heading: Schema.Attribute.Component<'molecules.section-heading', false> &
+      Schema.Attribute.Required;
+    noResultsText: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'No partner society is listed for this search yet. Call the main hotline and we will send the nearest vehicle.'>;
+    photosLabel: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Photos'>;
+    presidentLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'President'>;
+    searchLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Search by society, town or vehicle number'>;
+    vehiclesLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Vehicles'>;
   };
 }
 
@@ -362,11 +386,13 @@ export interface PageComponentsRegionalCoverageSection
   extends Struct.ComponentSchema {
   collectionName: 'components_page_components_regional_coverage_sections';
   info: {
-    description: 'Map pins and cards come from the Regions collection.';
+    description: 'Map pins and cards come from the Farzan Bases and Partner Societies collections.';
     displayName: 'regionalCoverageSection';
     icon: 'apps';
   };
   attributes: {
+    baseLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Farzan Janaza base'>;
     description: Schema.Attribute.Text &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
@@ -377,11 +403,15 @@ export interface PageComponentsRegionalCoverageSection
     heading: Schema.Attribute.String & Schema.Attribute.Required;
     hotlineLabel: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Hotline'>;
+    partnerLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Partner society'>;
     selectHint: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Hover or click a region on the map'>;
     selectTitle: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Select Area'>;
     tagLine: Schema.Attribute.String & Schema.Attribute.Required;
+    vehiclesLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Vehicles'>;
   };
 }
 
@@ -404,7 +434,7 @@ export interface PageComponentsServiceCard extends Struct.ComponentSchema {
 export interface PageComponentsServiceItem extends Struct.ComponentSchema {
   collectionName: 'components_page_components_service_items';
   info: {
-    description: 'Call button dials the chosen Global hotline.';
+    description: 'Call button dials the main hotline.';
     displayName: 'ServiceItem';
     icon: 'apps';
   };
@@ -415,9 +445,6 @@ export interface PageComponentsServiceItem extends Struct.ComponentSchema {
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'primary'>;
     description: Schema.Attribute.Text;
-    hotline: Schema.Attribute.Enumeration<['primary', 'secondary']> &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'primary'>;
     icon: Schema.Attribute.String;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };
@@ -495,7 +522,7 @@ export interface PageComponentsStatItem extends Struct.ComponentSchema {
 export interface PageComponentsStationsSection extends Struct.ComponentSchema {
   collectionName: 'components_page_components_stations_sections';
   info: {
-    description: 'Cards come from the Regions collection (Show On Contact Page).';
+    description: 'Cards come from the Farzan Bases collection (Show On Contact Page).';
     displayName: 'StationsSection';
     icon: 'apps';
   };
@@ -504,7 +531,7 @@ export interface PageComponentsStationsSection extends Struct.ComponentSchema {
       Schema.Attribute.Required;
     statusLabel: Schema.Attribute.String;
     unitsLabel: Schema.Attribute.String &
-      Schema.Attribute.DefaultTo<'Active Units'>;
+      Schema.Attribute.DefaultTo<'Vehicles'>;
   };
 }
 
@@ -547,9 +574,9 @@ declare module '@strapi/strapi' {
       'molecules.social-link': MoleculesSocialLink;
       'molecules.stats-and-numbers': MoleculesStatsAndNumbers;
       'molecules.step': MoleculesStep;
+      'molecules.vehicle': MoleculesVehicle;
       'page-components.alert-bar': PageComponentsAlertBar;
       'page-components.contact-channels': PageComponentsContactChannels;
-      'page-components.coordinators-section': PageComponentsCoordinatorsSection;
       'page-components.cta-banner': PageComponentsCtaBanner;
       'page-components.emergency-card': PageComponentsEmergencyCard;
       'page-components.fleet-readiness-card': PageComponentsFleetReadinessCard;
@@ -558,6 +585,7 @@ declare module '@strapi/strapi' {
       'page-components.hero-area': PageComponentsHeroArea;
       'page-components.hubs-section': PageComponentsHubsSection;
       'page-components.page-hero': PageComponentsPageHero;
+      'page-components.partners-section': PageComponentsPartnersSection;
       'page-components.quick-links': PageComponentsQuickLinks;
       'page-components.readiness-card': PageComponentsReadinessCard;
       'page-components.regional-coverage-section': PageComponentsRegionalCoverageSection;

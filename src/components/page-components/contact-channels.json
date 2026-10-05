@@ -3,7 +3,7 @@
   "info": {
     "displayName": "ContactChannels",
     "icon": "apps",
-    "description": "Hotline cards come from Global > hotlines."
+    "description": "The main hotline card and any district lines come from Global > hotlines."
   },
   "options": {},
   "attributes": {
@@ -22,6 +22,10 @@
       "type": "component",
       "component": "atoms.button",
       "repeatable": false
+    },
+    "districtHotlinesTitle": {
+      "type": "string",
+      "default": "District Hotlines"
     },
     "policyTag": {
       "type": "string"

@@ -3,7 +3,7 @@
   "info": {
     "displayName": "ServiceItem",
     "icon": "apps",
-    "description": "Call button dials the chosen Global hotline."
+    "description": "Call button dials the main hotline."
   },
   "options": {},
   "attributes": {
@@ -16,15 +16,6 @@
     },
     "description": {
       "type": "text"
-    },
-    "hotline": {
-      "type": "enumeration",
-      "enum": [
-        "primary",
-        "secondary"
-      ],
-      "default": "primary",
-      "required": true
     },
     "buttonStyle": {
       "type": "enumeration",

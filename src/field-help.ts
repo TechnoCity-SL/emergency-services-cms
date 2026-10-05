@@ -28,7 +28,7 @@ const CONTENT_TYPES: Record<string, ModelHelp> = {
     hotlines: {
       label: 'Hotlines',
       description:
-        'At least one is required. Used everywhere a call button or hotline card appears (hero, CTA banners, contact page, service cards). The first hotline is the main (red) line, the second the backup (blue) line. Phone numbers always come from the English version — in other languages only translate the name and description.',
+        'The FIRST hotline is the main number — every call button on the site dials it. Add more lines only for district numbers, and fill in "Districts covered" on each; district lines without districts are not shown. Phone numbers always come from the English version — in other languages only translate the name and description.',
     },
     whatsappUrl: {
       label: 'WhatsApp link',
@@ -48,7 +48,7 @@ const CONTENT_TYPES: Record<string, ModelHelp> = {
     },
     regionalCoverageSection: {
       label: 'Regional coverage section',
-      description: 'Interactive map. Pins and cards come from the Regions collection.',
+      description: 'Interactive map. Pins come from Farzan Bases and Partner Societies.',
     },
     StatItem: {
       label: 'Stats strip',
@@ -74,12 +74,13 @@ const CONTENT_TYPES: Record<string, ModelHelp> = {
     statusBar: { label: 'Status bar', description: 'Thin strip above the hero. Leave empty to hide it.' },
     hero: { label: 'Hero', description: 'Banner at the top of the Coverage page.' },
     hubsSection: {
-      label: 'Hubs section',
-      description: 'Hub cards come from Regions with "Show on Coverage page" switched on.',
+      label: 'Farzan bases section',
+      description: 'Base cards come from Farzan Bases with "Show on Coverage page" switched on.',
     },
-    coordinatorsSection: {
-      label: 'Coordinators section',
-      description: 'Cards come from Coordinators with "Show in directory" switched on.',
+    partnersSection: {
+      label: 'Partner societies section',
+      description:
+        'Searchable directory of partner societies. Cards come from Partner Societies with "Show on website" switched on. Leave empty to hide it.',
     },
     ctaBanner: { label: 'Call-to-action banner', description: 'Banner near the bottom. Leave empty to hide it.' },
     features: {
@@ -97,24 +98,29 @@ const CONTENT_TYPES: Record<string, ModelHelp> = {
     },
     contactChannels: {
       label: 'Contact channels',
-      description: 'Hotline cards (from Global > Hotlines) plus the WhatsApp and policy blocks.',
+      description: 'Main hotline card and district lines (from Global > Hotlines) plus the WhatsApp and policy blocks.',
     },
     stationsSection: {
       label: 'Stations section',
-      description: 'Station cards come from Regions with "Show on Contact page" switched on.',
+      description: 'Station cards come from Farzan Bases with "Show on Contact page" switched on.',
     },
   },
 
   'api::region.region': {
     name: {
-      label: 'Hub name',
+      label: 'Base name',
       description: 'Shown as the card title and map pin name.',
-      placeholder: 'Colombo & Gampaha Hub',
+      placeholder: 'Colombo Base',
     },
     province: {
       label: 'Province',
-      description: 'Shown under the hub name.',
+      description: 'Shown under the base name.',
       placeholder: 'Western Province',
+    },
+    district: {
+      label: 'District',
+      description:
+        'Where the base is. If a district hotline covers this district, the base\'s call button dials it instead of the main hotline. Optional.',
     },
     areas: {
       label: 'Areas covered',
@@ -123,21 +129,17 @@ const CONTENT_TYPES: Record<string, ModelHelp> = {
     },
     description: {
       label: 'Description',
-      description: 'One or two sentences about what this hub handles. Optional.',
+      description: 'One or two sentences about what this base handles. Shown on Contact page station cards. Optional.',
     },
     activeUnits: {
-      label: 'Active units',
-      description: 'Number of vehicles based here. Whole number only.',
+      label: 'Vehicles',
+      description: 'Number of Farzan Janaza vehicles based here. Whole number only. Leave empty to hide the count.',
       placeholder: '8',
     },
     stationCode: {
       label: 'Station code',
       description: 'Short tag shown on Contact page station cards. Optional.',
       placeholder: 'Base 02',
-    },
-    coordinator: {
-      label: 'Coordinator',
-      description: 'Person contacted for this hub. Their phone number is used for the "Call hub" button.',
     },
     latitude: {
       label: 'Latitude',
@@ -152,11 +154,11 @@ const CONTENT_TYPES: Record<string, ModelHelp> = {
     },
     showOnCoveragePage: {
       label: 'Show on Coverage page',
-      description: 'Adds this hub to the Coverage page hub list. On by default.',
+      description: 'Adds this base to the Coverage page. On by default.',
     },
     showOnContactPage: {
       label: 'Show on Contact page',
-      description: 'Adds this hub to the Contact page stations list. Off by default.',
+      description: 'Adds this base to the Contact page stations list. Off by default.',
     },
     sortOrder: {
       label: 'Sort order',
@@ -165,48 +167,55 @@ const CONTENT_TYPES: Record<string, ModelHelp> = {
     },
   },
 
-  'api::coordinator.coordinator': {
+  'api::partner.partner': {
     name: {
-      label: 'Full name',
-      description: 'Shown on coordinator cards and hub cards.',
-      placeholder: 'Br. Rizwan Hajiyar',
+      label: 'Society name',
+      description: 'Shown as the card title and map pin name.',
+      placeholder: 'Kattankudy Janaza Welfare Society',
     },
+    province: { label: 'Province' },
     district: {
       label: 'District',
-      description: 'Shown as the card heading.',
-      placeholder: 'Western District',
+      description: 'Used for the district filter on the Coverage page and to place the map pin when no coordinates are given.',
     },
-    area: {
-      label: 'Area of responsibility',
-      placeholder: 'Colombo Central & Dehiwala Liaison',
+    hotline: {
+      label: 'Hotline',
+      description: `The society's own number. ${PHONE_HINT}`,
+      placeholder: '077 123 4567',
     },
-    phone: {
-      label: 'Phone number',
-      description: PHONE_HINT,
-      placeholder: '077 302 4111',
+    presidentName: {
+      label: 'President',
+      description: 'Name of the society president. Optional.',
+      placeholder: 'Br. Hameed Hajiyar',
     },
-    whatsapp: {
-      label: 'WhatsApp number',
-      description: 'Optional. Same format as the phone number.',
-      placeholder: '077 302 4111',
+    vehicles: {
+      label: 'Vehicles',
+      description: 'Vehicles this society runs for the network. Add one row per vehicle.',
     },
-    photo: {
-      label: 'Photo',
-      description: 'Square image works best. Optional.',
-    },
-    showInDirectory: {
-      label: 'Show in directory',
+    gallery: {
+      label: 'Photo gallery',
       description:
-        'Shows this person on the Coverage page coordinators list. Turn off for desks that only back a hub. On by default.',
+        'Photos of the president, vehicles, society and staff. The first photo is used as the card cover. Optional.',
+    },
+    latitude: {
+      label: 'Latitude',
+      description:
+        'Optional. Right-click the spot in Google Maps and copy the first number (Sri Lanka is between 5.9 and 9.9). If empty, the pin is placed in the middle of the district.',
+      placeholder: '7.6833',
+    },
+    longitude: {
+      label: 'Longitude',
+      description: 'Optional. The second number from Google Maps (Sri Lanka is between 79.5 and 81.9).',
+      placeholder: '81.7333',
+    },
+    showOnWebsite: {
+      label: 'Show on website',
+      description: 'Turn off to hide this society everywhere without deleting it. On by default.',
     },
     sortOrder: {
       label: 'Sort order',
-      description: 'Lower numbers appear first. Defaults to 0.',
+      description: 'Lower numbers appear first; equal numbers are sorted by name. Defaults to 0.',
       placeholder: '1',
-    },
-    regions: {
-      label: 'Hubs',
-      description: 'Hubs this person coordinates. You can also set this from each Region.',
     },
   },
 
@@ -228,15 +237,25 @@ const CONTENT_TYPES: Record<string, ModelHelp> = {
     mainNavLabel: { label: 'Main menu (screen reader)' },
     callPersonLabel: {
       label: 'Call someone (screen reader)',
-      description: '{name} is replaced with the coordinator or hub name.',
+      description: '{name} is replaced with the hotline or society name.',
       placeholder: 'Call {name}',
     },
     whatsappPersonLabel: {
       label: 'WhatsApp someone (screen reader)',
-      description: '{name} is replaced with the coordinator or hub name.',
+      description: '{name} is replaced with the base name.',
       placeholder: 'WhatsApp {name}',
     },
     mapLabel: { label: 'Coverage map (screen reader)' },
+    freeServiceLabel: {
+      label: '"Free service" tag',
+      description: 'Shown on partner vehicles marked free, and in the map legend.',
+      placeholder: 'Free service',
+    },
+    partialPaymentLabel: {
+      label: '"Partially paid" tag',
+      description: 'Shown on partner vehicles marked partially paid, and in the map legend.',
+      placeholder: 'Partially paid',
+    },
     mapResetLabel: {
       label: 'Map "show all" button',
       description: 'Shown on the home page map after a pin is clicked; zooms back out to the whole island.',
@@ -272,10 +291,11 @@ const COMPONENTS: Record<string, ModelHelp> = {
     label: { label: 'Name', description: 'Title on the hotline card.', placeholder: 'Primary 24/7 Hotline' },
     number: { label: 'Phone number', description: PHONE_HINT, placeholder: '077 302 4111' },
     description: { label: 'Description', description: 'What this line is for. Shown on the Contact page card.' },
-    variant: {
-      label: 'Type',
+    districts: {
+      label: 'Districts covered',
       description:
-        'Primary = main number, secondary = backup line. Defaults to primary.',
+        'Leave empty on the main hotline. For a district line, list the districts it answers, separated by commas (e.g. Ampara, Batticaloa). Spell them as in the district list.',
+      placeholder: 'Ampara, Batticaloa',
     },
   },
 
@@ -290,6 +310,21 @@ const COMPONENTS: Record<string, ModelHelp> = {
     Url: { label: 'Link (optional)', description: `Makes the image clickable. ${LINK_HINT}` },
   },
 
+  'molecules.vehicle': {
+    vehicleNumber: { label: 'Vehicle number', placeholder: 'PE-6367' },
+    vehicleType: { label: 'Vehicle type', description: 'Optional.', placeholder: 'Janaza van' },
+    payment: {
+      label: 'Payment',
+      description:
+        'free = no charge at all. partially_paid = the family pays part of the cost (e.g. driver or fuel). Leave empty if not confirmed yet — nothing is shown then. Colours the map pin and the vehicle tag.',
+    },
+    paymentNote: {
+      label: 'What is charged',
+      description: 'Short note for partially paid vehicles, shown next to the tag. Optional.',
+      placeholder: 'Driver and fuel charges only',
+    },
+  },
+
   'molecules.label': {
     text: { label: 'Text', placeholder: '100% Free Service' },
   },
@@ -302,7 +337,7 @@ const COMPONENTS: Record<string, ModelHelp> = {
 
   'molecules.section-heading': {
     tagLine: { label: 'Tagline', description: 'Small text above the heading. Optional.', placeholder: 'Direct Regional Command' },
-    heading: { label: 'Heading', placeholder: 'District Coordinators & Quick-Call Hubs' },
+    heading: { label: 'Heading', placeholder: 'Farzan Janaza Bases' },
     description: { label: 'Description', description: 'Short intro under the heading. Optional.' },
   },
 
@@ -339,15 +374,12 @@ const COMPONENTS: Record<string, ModelHelp> = {
       label: 'WhatsApp button',
       description: 'Usually the same link as Global > WhatsApp link.',
     },
+    districtHotlinesTitle: {
+      label: 'District hotlines title',
+      description: 'Heading above the district lines. Only shown once a district line is added. Defaults to "District Hotlines".',
+    },
     policyTag: { label: 'Policy tag', placeholder: 'Strict Humanitarian Policy' },
     policyText: { label: 'Policy text', description: 'Shown in a highlighted box below the contact cards.' },
-  },
-
-  'page-components.coordinators-section': {
-    heading: { label: 'Section heading' },
-    statusLabel: { label: 'Status label', description: 'Small live-status text beside the heading. Optional.', placeholder: 'All Personnel Active Now' },
-    dutyBadge: { label: 'Duty badge', description: 'Badge on every coordinator card. Defaults to "24/7 On Duty".' },
-    whatsappLabel: { label: 'WhatsApp button text', description: 'Defaults to "Direct WhatsApp".' },
   },
 
   'page-components.cta-banner': {
@@ -371,13 +403,13 @@ const COMPONENTS: Record<string, ModelHelp> = {
   },
 
   'page-components.footer-section': {
-    brandName: { label: 'Brand name', placeholder: 'Farzan Janaza and Emergency Services G Ltd.' },
+    brandName: { label: 'Brand name', placeholder: 'Farzan Janaza & Emergency' },
     description: { label: 'About text', description: 'Short paragraph under the brand name.' },
     socialLinks: { label: 'Social / contact icons' },
     copyrightText: {
       label: 'Copyright text',
       description: 'Remember to update the year.',
-      placeholder: '© 2024 Farzan Janaza and Emergency Services G Ltd. All Rights Reserved.',
+      placeholder: '© 2026 Farzan Janaza & Emergency. All Rights Reserved.',
     },
     quickLinksLabel: { label: 'Links column heading', description: 'Defaults to "Navigation".' },
     quickLinks: { label: 'Links' },
@@ -402,7 +434,7 @@ const COMPONENTS: Record<string, ModelHelp> = {
     Description: {
       label: 'Intro text',
       description: 'Short paragraph under the heading. Optional.',
-      placeholder: 'Farzan Janaza & Emergency Services G Ltd provides immediate medical transport…',
+      placeholder: 'Farzan Janaza & Emergency provides free Janaza and emergency transport…',
     },
     PrimaryButton: { label: 'Primary button', description: 'Main button. Usually a tel: link to the main hotline.' },
     SecondaryButton: { label: 'Secondary button', description: 'Optional.' },
@@ -412,10 +444,25 @@ const COMPONENTS: Record<string, ModelHelp> = {
 
   'page-components.hubs-section': {
     heading: { label: 'Section heading' },
-    badge: { label: 'Badge', description: 'Optional.', placeholder: '48+ Fleet Vehicles Islandwide' },
-    unitsLabel: { label: '"Units" label', description: 'Shown after the unit count on each card. Defaults to "Units".' },
-    coordinatorLabel: { label: '"Coordinator" label', description: 'Defaults to "Coordinator:".' },
-    callButtonLabel: { label: 'Call button text', description: 'Dials the hub coordinator. Defaults to "Call Hub".' },
+    badge: { label: 'Badge', description: 'Optional.', placeholder: 'Farzan Janaza Fleet' },
+    unitsLabel: { label: '"Vehicles" label', description: 'Shown after the vehicle count on each card. Defaults to "Vehicles".' },
+    callButtonLabel: {
+      label: 'Call button text',
+      description: 'Dials the main hotline (or the district line covering the base). Defaults to "Call Hotline".',
+    },
+  },
+
+  'page-components.partners-section': {
+    heading: { label: 'Section heading' },
+    badge: { label: 'Badge', description: 'Optional.', placeholder: 'Registered with Farzan Janaza' },
+    searchLabel: { label: 'Search box label', description: 'Defaults to "Search by society, town or vehicle number".' },
+    districtFilterLabel: { label: 'District filter label', description: 'Defaults to "District".' },
+    allDistrictsLabel: { label: '"All districts" option', description: 'Defaults to "All districts".' },
+    noResultsText: { label: 'No results message', description: 'Shown when nothing matches; the main hotline button is shown with it.' },
+    presidentLabel: { label: '"President" label', description: 'Defaults to "President".' },
+    vehiclesLabel: { label: '"Vehicles" label', description: 'Defaults to "Vehicles".' },
+    callButtonLabel: { label: 'Call button text', description: 'Dials the society hotline. Defaults to "Call Society".' },
+    photosLabel: { label: '"Photos" label', description: 'Shown on the photo count badge. Defaults to "Photos".' },
   },
 
   'page-components.page-hero': {
@@ -452,6 +499,9 @@ const COMPONENTS: Record<string, ModelHelp> = {
     selectHint: { label: 'Panel hint (nothing selected)', description: 'Defaults to "Hover or click a region on the map".' },
     districtsLabel: { label: '"Districts" label', description: 'Defaults to "Districts".' },
     hotlineLabel: { label: '"Hotline" label', description: 'Defaults to "Hotline".' },
+    baseLabel: { label: '"Farzan base" label', description: 'Tag on Farzan base pins. Defaults to "Farzan Janaza base".' },
+    partnerLabel: { label: '"Partner society" label', description: 'Tag on partner pins. Defaults to "Partner society".' },
+    vehiclesLabel: { label: '"Vehicles" label', description: 'Defaults to "Vehicles".' },
   },
 
   'page-components.service-card': {
@@ -467,7 +517,6 @@ const COMPONENTS: Record<string, ModelHelp> = {
     icon: { label: 'Icon', description: ICON_HINT, placeholder: 'airport_shuttle' },
     title: { label: 'Title', placeholder: 'Free Janaza Transport' },
     description: { label: 'Description' },
-    hotline: { label: 'Hotline to call', description: 'Which Global hotline the call button dials. Defaults to primary.' },
     buttonStyle: {
       label: 'Button colour',
       description: 'Visual style of the call button. Defaults to primary.',
@@ -501,7 +550,7 @@ const COMPONENTS: Record<string, ModelHelp> = {
   'page-components.stations-section': {
     heading: { label: 'Section heading' },
     statusLabel: { label: 'Status label', description: 'Optional.', placeholder: 'National Grid Status: Operational' },
-    unitsLabel: { label: '"Units" label', description: 'Defaults to "Active Units".' },
+    unitsLabel: { label: '"Vehicles" label', description: 'Defaults to "Vehicles".' },
   },
 
   'page-components.status-bar': {

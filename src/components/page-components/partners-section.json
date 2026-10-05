@@ -1,0 +1,53 @@
+{
+  "collectionName": "components_page_components_partners_sections",
+  "info": {
+    "displayName": "PartnersSection",
+    "icon": "apps",
+    "description": "Cards come from the Partner Societies collection (Show On Website)."
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "component",
+      "component": "molecules.section-heading",
+      "repeatable": false,
+      "required": true
+    },
+    "badge": {
+      "type": "string"
+    },
+    "searchLabel": {
+      "type": "string",
+      "default": "Search by society, town or vehicle number"
+    },
+    "districtFilterLabel": {
+      "type": "string",
+      "default": "District"
+    },
+    "allDistrictsLabel": {
+      "type": "string",
+      "default": "All districts"
+    },
+    "noResultsText": {
+      "type": "string",
+      "default": "No partner society is listed for this search yet. Call the main hotline and we will send the nearest vehicle."
+    },
+    "presidentLabel": {
+      "type": "string",
+      "default": "President"
+    },
+    "vehiclesLabel": {
+      "type": "string",
+      "default": "Vehicles"
+    },
+    "callButtonLabel": {
+      "type": "string",
+      "default": "Call Society"
+    },
+    "photosLabel": {
+      "type": "string",
+      "default": "Photos"
+    }
+  },
+  "config": {}
+}

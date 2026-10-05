@@ -3,7 +3,7 @@
   "info": {
     "displayName": "StationsSection",
     "icon": "apps",
-    "description": "Cards come from the Regions collection (Show On Contact Page)."
+    "description": "Cards come from the Farzan Bases collection (Show On Contact Page)."
   },
   "options": {},
   "attributes": {
@@ -18,7 +18,7 @@
     },
     "unitsLabel": {
       "type": "string",
-      "default": "Active Units"
+      "default": "Vehicles"
     }
   },
   "config": {}

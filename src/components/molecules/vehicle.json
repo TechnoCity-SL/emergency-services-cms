@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_molecules_vehicles",
+  "info": {
+    "displayName": "Vehicle",
+    "icon": "car",
+    "description": "One vehicle a partner society runs for this network."
+  },
+  "options": {},
+  "attributes": {
+    "vehicleNumber": {
+      "type": "string",
+      "required": true
+    },
+    "vehicleType": {
+      "type": "string"
+    },
+    "payment": {
+      "type": "enumeration",
+      "enum": [
+        "free",
+        "partially_paid"
+      ]
+    },
+    "paymentNote": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

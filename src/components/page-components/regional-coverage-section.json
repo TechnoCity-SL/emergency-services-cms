@@ -3,7 +3,7 @@
   "info": {
     "displayName": "regionalCoverageSection",
     "icon": "apps",
-    "description": "Map pins and cards come from the Regions collection."
+    "description": "Map pins and cards come from the Farzan Bases and Partner Societies collections."
   },
   "options": {},
   "attributes": {
@@ -35,6 +35,18 @@
     "hotlineLabel": {
       "type": "string",
       "default": "Hotline"
+    },
+    "baseLabel": {
+      "type": "string",
+      "default": "Farzan Janaza base"
+    },
+    "partnerLabel": {
+      "type": "string",
+      "default": "Partner society"
+    },
+    "vehiclesLabel": {
+      "type": "string",
+      "default": "Vehicles"
     }
   },
   "config": {}

@@ -553,91 +553,6 @@ export interface ApiContactPageContactPage extends Struct.SingleTypeSchema {
   };
 }
 
-export interface ApiCoordinatorCoordinator extends Struct.CollectionTypeSchema {
-  collectionName: 'coordinators';
-  info: {
-    description: 'People who run each hub. Phone and WhatsApp are used on every page that shows them.';
-    displayName: 'Coordinator';
-    pluralName: 'coordinators';
-    singularName: 'coordinator';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    area: Schema.Attribute.String &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    district: Schema.Attribute.String &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::coordinator.coordinator'
-    >;
-    name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    phone: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    photo: Schema.Attribute.Media<'images'> &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    publishedAt: Schema.Attribute.DateTime;
-    regions: Schema.Attribute.Relation<'oneToMany', 'api::region.region'>;
-    showInDirectory: Schema.Attribute.Boolean &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }> &
-      Schema.Attribute.DefaultTo<true>;
-    sortOrder: Schema.Attribute.Integer &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }> &
-      Schema.Attribute.DefaultTo<0>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    whatsapp: Schema.Attribute.String &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-  };
-}
-
 export interface ApiCoveragePageCoveragePage extends Struct.SingleTypeSchema {
   collectionName: 'coverage_pages';
   info: {
@@ -654,16 +569,6 @@ export interface ApiCoveragePageCoveragePage extends Struct.SingleTypeSchema {
     };
   };
   attributes: {
-    coordinatorsSection: Schema.Attribute.Component<
-      'page-components.coordinators-section',
-      false
-    > &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -701,6 +606,15 @@ export interface ApiCoveragePageCoveragePage extends Struct.SingleTypeSchema {
       'oneToMany',
       'api::coverage-page.coverage-page'
     >;
+    partnersSection: Schema.Attribute.Component<
+      'page-components.partners-section',
+      false
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     publishedAt: Schema.Attribute.DateTime;
     statusBar: Schema.Attribute.Component<'page-components.status-bar', false> &
       Schema.Attribute.SetPluginOptions<{
@@ -903,11 +817,155 @@ export interface ApiLegalPageLegalPage extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiPartnerPartner extends Struct.CollectionTypeSchema {
+  collectionName: 'partners';
+  info: {
+    description: 'Janaza societies registered with Farzan Janaza that run vehicles for this network. Feeds the Coverage page directory and the Home map.';
+    displayName: 'Partner Society';
+    pluralName: 'partners';
+    singularName: 'partner';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    district: Schema.Attribute.Enumeration<
+      [
+        'Colombo',
+        'Gampaha',
+        'Kalutara',
+        'Kandy',
+        'Matale',
+        'Nuwara Eliya',
+        'Galle',
+        'Matara',
+        'Hambantota',
+        'Jaffna',
+        'Kilinochchi',
+        'Mannar',
+        'Vavuniya',
+        'Mullaitivu',
+        'Batticaloa',
+        'Ampara',
+        'Trincomalee',
+        'Kurunegala',
+        'Puttalam',
+        'Anuradhapura',
+        'Polonnaruwa',
+        'Badulla',
+        'Monaragala',
+        'Ratnapura',
+        'Kegalle',
+      ]
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    gallery: Schema.Attribute.Media<'images', true> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    hotline: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    latitude: Schema.Attribute.Decimal &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::partner.partner'
+    >;
+    longitude: Schema.Attribute.Decimal &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    presidentName: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    province: Schema.Attribute.Enumeration<
+      [
+        'Western Province',
+        'Central Province',
+        'Southern Province',
+        'Northern Province',
+        'Eastern Province',
+        'North Western Province',
+        'North Central Province',
+        'Uva Province',
+        'Sabaragamuwa Province',
+      ]
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    publishedAt: Schema.Attribute.DateTime;
+    showOnWebsite: Schema.Attribute.Boolean &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<true>;
+    sortOrder: Schema.Attribute.Integer &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<0>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    vehicles: Schema.Attribute.Component<'molecules.vehicle', true> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+  };
+}
+
 export interface ApiRegionRegion extends Struct.CollectionTypeSchema {
   collectionName: 'regions';
   info: {
-    description: 'Hubs and stations. Feeds the Home map, Coverage hubs and Contact stations.';
-    displayName: 'Region';
+    description: 'Farzan Janaza vehicle bases (e.g. Colombo, Akkaraipattu). Feeds the Home map, Coverage bases and Contact stations.';
+    displayName: 'Farzan Base';
     pluralName: 'regions';
     singularName: 'region';
   };
@@ -932,10 +990,6 @@ export interface ApiRegionRegion extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
-    coordinator: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::coordinator.coordinator'
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -943,6 +997,40 @@ export interface ApiRegionRegion extends Struct.CollectionTypeSchema {
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
+        };
+      }>;
+    district: Schema.Attribute.Enumeration<
+      [
+        'Colombo',
+        'Gampaha',
+        'Kalutara',
+        'Kandy',
+        'Matale',
+        'Nuwara Eliya',
+        'Galle',
+        'Matara',
+        'Hambantota',
+        'Jaffna',
+        'Kilinochchi',
+        'Mannar',
+        'Vavuniya',
+        'Mullaitivu',
+        'Batticaloa',
+        'Ampara',
+        'Trincomalee',
+        'Kurunegala',
+        'Puttalam',
+        'Anuradhapura',
+        'Polonnaruwa',
+        'Badulla',
+        'Monaragala',
+        'Ratnapura',
+        'Kegalle',
+      ]
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
         };
       }>;
     latitude: Schema.Attribute.Decimal &
@@ -1141,6 +1229,13 @@ export interface ApiUiLabelUiLabel extends Struct.SingleTypeSchema {
         };
       }> &
       Schema.Attribute.DefaultTo<'Something went wrong'>;
+    freeServiceLabel: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<'Free service'>;
     languageLabel: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
@@ -1195,6 +1290,13 @@ export interface ApiUiLabelUiLabel extends Struct.SingleTypeSchema {
         };
       }> &
       Schema.Attribute.DefaultTo<'Open menu'>;
+    partialPaymentLabel: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<'Partially paid'>;
     publishedAt: Schema.Attribute.DateTime;
     tryAgainLabel: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
@@ -1729,11 +1831,11 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::contact-page.contact-page': ApiContactPageContactPage;
-      'api::coordinator.coordinator': ApiCoordinatorCoordinator;
       'api::coverage-page.coverage-page': ApiCoveragePageCoveragePage;
       'api::global.global': ApiGlobalGlobal;
       'api::home-page.home-page': ApiHomePageHomePage;
       'api::legal-page.legal-page': ApiLegalPageLegalPage;
+      'api::partner.partner': ApiPartnerPartner;
       'api::region.region': ApiRegionRegion;
       'api::services-page.services-page': ApiServicesPageServicesPage;
       'api::ui-label.ui-label': ApiUiLabelUiLabel;

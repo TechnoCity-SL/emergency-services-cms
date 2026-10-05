@@ -1,11 +1,11 @@
 {
   "kind": "collectionType",
-  "collectionName": "regions",
+  "collectionName": "partners",
   "info": {
-    "singularName": "region",
-    "pluralName": "regions",
-    "displayName": "Farzan Base",
-    "description": "Farzan Janaza vehicle bases (e.g. Colombo, Akkaraipattu). Feeds the Home map, Coverage bases and Contact stations."
+    "singularName": "partner",
+    "pluralName": "partners",
+    "displayName": "Partner Society",
+    "description": "Janaza societies registered with Farzan Janaza that run vehicles for this network. Feeds the Coverage page directory and the Home map."
   },
   "options": {
     "draftAndPublish": false
@@ -26,11 +26,22 @@
       }
     },
     "province": {
-      "type": "string",
+      "type": "enumeration",
+      "enum": [
+        "Western Province",
+        "Central Province",
+        "Southern Province",
+        "Northern Province",
+        "Eastern Province",
+        "North Western Province",
+        "North Central Province",
+        "Uva Province",
+        "Sabaragamuwa Province"
+      ],
       "required": true,
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       }
     },
@@ -63,41 +74,49 @@
         "Ratnapura",
         "Kegalle"
       ],
+      "required": true,
       "pluginOptions": {
         "i18n": {
           "localized": false
         }
       }
     },
-    "areas": {
-      "type": "text",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
-    "description": {
-      "type": "text",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
-    "activeUnits": {
-      "type": "integer",
+    "hotline": {
+      "type": "string",
+      "required": true,
       "pluginOptions": {
         "i18n": {
           "localized": false
         }
       }
     },
-    "stationCode": {
+    "presidentName": {
       "type": "string",
       "pluginOptions": {
         "i18n": {
           "localized": true
+        }
+      }
+    },
+    "vehicles": {
+      "type": "component",
+      "component": "molecules.vehicle",
+      "repeatable": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
         }
       }
     },
@@ -117,18 +136,9 @@
         }
       }
     },
-    "showOnCoveragePage": {
+    "showOnWebsite": {
       "type": "boolean",
       "default": true,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "showOnContactPage": {
-      "type": "boolean",
-      "default": false,
       "pluginOptions": {
         "i18n": {
           "localized": false
