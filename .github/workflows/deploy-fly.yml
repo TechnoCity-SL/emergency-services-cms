@@ -20,8 +20,7 @@ jobs:
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
-      # fly.toml is not committed (see .gitignore), so flyctl uses the config already
-      # deployed on the Fly app named by the FLY_APP_NAME repository variable.
+      # flyctl reads fly.toml from the repo root; --app picks the target Fly app.
       - name: Deploy
         run: flyctl deploy --app "$FLY_APP_NAME" --remote-only
         env:

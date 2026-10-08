@@ -1,0 +1,36 @@
+app = 'emergency-services-cms'
+primary_region = 'sin'
+
+[build]
+  dockerfile = 'Dockerfile'
+
+# Secrets (DATABASE_URL, APP_KEYS, Cloudinary keys, ...) are set with `fly secrets set`, not here.
+[env]
+  HOST = '0.0.0.0'
+  IS_PROXIED = 'true'
+  NODE_ENV = 'production'
+  PORT = '1337'
+  PUBLIC_URL = 'https://emergency-services-cms.fly.dev'
+  STRAPI_TELEMETRY_DISABLED = 'true'
+
+# The site only reads the CMS at build time and on publish (/api/revalidate), and its client
+# retries long enough for a cold start, so the machine stops when idle and wakes on the next request.
+[http_service]
+  internal_port = 1337
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+  [[http_service.checks]]
+    interval = '30s'
+    timeout = '10s'
+    grace_period = '1m0s'
+    method = 'GET'
+    path = '/admin/init'
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
