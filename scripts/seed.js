@@ -82,37 +82,111 @@ const regions = [
   },
 ];
 
-// Partner societies registered with Farzan Janaza (from the operations sheet, October 2026).
+// Partner societies registered with Farzan Janaza
+// (Soceities/Emergency Services Content Management.xlsx, 16 October 2026).
 // Coordinates are not known yet — the website places these pins in the middle of the district.
-const partner = (name, province, district, vehicleNumber, hotline, presidentName) => ({
+// Bump this when the list below is replaced, so the next seed run applies it once.
+const PARTNERS_VERSION = '2026-10-16';
+
+const provinceByDistrict = {
+  Colombo: 'Western Province', Gampaha: 'Western Province', Kalutara: 'Western Province',
+  Kandy: 'Central Province', Matale: 'Central Province', 'Nuwara Eliya': 'Central Province',
+  Galle: 'Southern Province', Matara: 'Southern Province', Hambantota: 'Southern Province',
+  Jaffna: 'Northern Province', Kilinochchi: 'Northern Province', Mannar: 'Northern Province',
+  Vavuniya: 'Northern Province', Mullaitivu: 'Northern Province',
+  Batticaloa: 'Eastern Province', Ampara: 'Eastern Province', Trincomalee: 'Eastern Province',
+  Kurunegala: 'North Western Province', Puttalam: 'North Western Province',
+  Anuradhapura: 'North Central Province', Polonnaruwa: 'North Central Province',
+  Badulla: 'Uva Province', Monaragala: 'Uva Province',
+  Ratnapura: 'Sabaragamuwa Province', Kegalle: 'Sabaragamuwa Province',
+};
+
+const MAIN_HOTLINE = hotlines[0].number;
+
+// society(name, district, hotline, [president, phone], [secretary, phone], [[vehicleNumber, type]], extra)
+const society = (name, district, hotline, [presidentName, presidentPhone] = [], [secretaryName, secretaryPhone] = [], vehicles = [], extra = {}) => ({
   name,
-  province,
+  province: provinceByDistrict[district],
   district,
   hotline,
   ...(presidentName && { presidentName }),
-  vehicles: [{ vehicleNumber }],
+  ...(presidentPhone && { presidentPhone }),
+  ...(secretaryName && { secretaryName }),
+  ...(secretaryPhone && { secretaryPhone }),
+  vehicles: vehicles.map(([vehicleNumber, vehicleType]) => ({ vehicleNumber, ...(vehicleType && { vehicleType }) })),
+  ...extra,
 });
 
+// Kept off the website until an editor fills in what is missing.
+const hidden = { showOnWebsite: false };
+
 const partners = [
-  partner('Al Wadha Janaza Welfare Services', 'North Western Province', 'Puttalam', 'DAI-7471', '072 523 1777', 'Riswan Brother'),
-  partner('Barakath Welfare Society, Kattankudy', 'Eastern Province', 'Batticaloa', 'LF-7990', '077 179 1335', 'Asmi Brother'),
-  partner('Gintota Muhaitheen Jumma Masjid Janaza Service', 'Southern Province', 'Galle', 'PW-4646', '077 902 1808', 'Fairoos Brother'),
-  partner('Hemmathagama Masjid Welfare Association', 'Central Province', 'Kandy', 'PJ-0650', '077 710 9909', 'Mansoor Hajiyar'),
-  partner('ISWAA Janaza and Emergency Service', 'Eastern Province', 'Ampara', 'PF-2441', '070 699 9909', 'Ajmal Moulavi'),
-  partner('Janaza Service - New Elpitiya, Gelioya', 'Central Province', 'Kandy', '251-8018', '077 715 1815', 'Rizan Brother'),
-  partner('Kalkudah Janaza Welfare Services', 'Eastern Province', 'Batticaloa', 'DAH-8012', '077 232 4252', 'Nawfer Brother'),
-  partner('Janaza Foundation Kalpitiya', 'North Western Province', 'Puttalam', 'PF-3445', '077 063 9800', 'Thariq Hajiyar'),
-  partner('Kattankudy Janaza Welfare Society', 'Eastern Province', 'Batticaloa', 'PE-6367', '076 825 6424', 'Hameed Hajiyar'),
-  partner('Katugoda Janaza Service', 'Southern Province', 'Galle', 'PY-5665', '077 943 4404'),
-  partner('Madulbowa Bathibiya Janaza Welfare Association', 'Sabaragamuwa Province', 'Kegalle', '251-1711', '077 918 7173'),
-  partner('Maruthamunai Janaza Welfare Society', 'Eastern Province', 'Ampara', 'DAG-8405', '077 218 5817'),
-  partner('Poruthota Janaza Welfare Association - PJWA', 'Western Province', 'Gampaha', 'DAG-4335', '077 160 7799'),
-  partner('Silmiyapura Janaza Society', 'North Western Province', 'Puttalam', '20-3600', '077 718 6486'),
-  partner('Social Services & Janaza Society, Colombo-15', 'Western Province', 'Colombo', 'PX-4803', '077 367 9684'),
-  partner('Thoppur Janaza Welfare Society', 'Eastern Province', 'Trincomalee', 'PE-2527', '077 235 4774'),
-  partner('Vavuniya Pattanichoor Janaza Welfare Co-Op Society', 'Northern Province', 'Vavuniya', 'GS-9075', '076 925 5042'),
-  partner('Chilaw Janaza Welfare Association', 'North Western Province', 'Puttalam', 'DAH-8145', '077 784 1284'),
-].map((entry, index) => ({ ...entry, sortOrder: index + 1 }));
+  society('Galagedara Janaza Welfare Society', 'Kandy', '075 520 9956', ['Rismi', '075 520 9956']),
+  society('Jamaliya Janaza Welfare Society', 'Trincomalee', '075 426 6903', ['Mahzoom', '077 631 0646'], ['A.K. Siyaul Haq', '075 426 6903']),
+  society('Poruthota Janaza Welfare Association - PJWA', 'Gampaha', '076 747 4074', ['Munawaar', '077 160 7799'], ['M.R.M. Rismy', '076 747 4074'], [['DAG-4335', 'Double Cab']]),
+  society('Vavuniya Pattanichoor Janaza Welfare Co-Op Society', 'Vavuniya', '077 606 2767', ['Nasar Hajiyar', '076 925 5042'], ['Munawwar', '077 606 2767'], [['GS-9075', 'Van']]),
+  society('Al Wadha Janaza Welfare Services', 'Puttalam', '072 523 1777', ['Riswan', '072 523 1777'], ['Rislan', '076 036 0333'], [['DAI-7471', 'Bolero']]),
+  society('Janaza Foundation Kalpitiya', 'Puttalam', '077 192 0656', ['Thariq Hajiyar', '077 063 9800'], ['Aslam', '077 192 0656'], [['PF-3445', 'Van']]),
+  society('Silmiyapura Janaza Society', 'Puttalam', '077 718 6486', ['Iftikhar', '077 718 6486'], ['Faizar Hajiyar', '077 295 3462'], [['20-3600', 'Van']]),
+  society('Gurutawala Janaza Services', 'Ratnapura', '077 698 1440', ['Kaleel Majeed', '076 725 5387'], ['Fowsul Aman (Coordinator)', '077 698 1440'], [['GK-7787', 'Van']]),
+  society('Badulla Janaza Welfare Association', 'Badulla', '076 880 0688', ['Jawfer', '076 880 0688'], ['Fahis', '072 494 4754'], [['JS-7228', 'Van']]),
+  // No phone number on the sheet: the main hotline stands in until the society's own is known.
+  society('Janaza Services Jannath Jumma Masjid', 'Ratnapura', MAIN_HOTLINE, [], [], [['DAE-4515', 'Batta']], hidden),
+  society('Beruwela Janaza Service', 'Kalutara', '077 394 0936', ['Raslan', '077 394 0936'], ['Ramsan', '077 712 8912'], [['PD-3862', 'Van']]),
+  society('Nuwara Eliya Hawaeliya Janaza Society', 'Nuwara Eliya', '071 567 1117', ['Niyasdeen', '071 567 1117'], ['Irshad'], [['EF-8658', 'Van']]),
+  society('Kalkudah Janaza Welfare Services', 'Batticaloa', '077 232 4252', ['Nawfar Phi', '076 765 8828'], ['Raheem'], [['DAH-8012', 'Batta']]),
+  // The sheet notes the listed president (Riyas Moulavi) stepped down on 3 September 2026.
+  society('Kinniya Janaza Welfare Association', 'Trincomalee', '075 310 1137', [], ['Ashraq Moulavi', '075 310 1137'], [['GI-4084', 'Van']]),
+  society('Thoppur Janaza Welfare Society', 'Trincomalee', '077 235 4774', ['Rafaideen', '077 949 3702'], ['Haris', '077 235 4774'], [['PE-2527', 'Van']]),
+  society('Irakkamam Grand Masjidh Janaza Foundation', 'Ampara', '075 291 8130', ['Rauf', '075 728 0449 / 077 675 8138'], ['Haroon', '077 356 5501 / 075 291 8130'], [['PG-6706', 'Van']]),
+  society('Thaiba Welfare Association', 'Gampaha', '077 732 2666', ['Aslam Hajiyar', '077 732 2666'], ['M.A.M. Nusrath Hajiyar', '077 138 2627'], [['LH-3919', 'Batta']]),
+  society('Minan Janaza Welfare Society Aandankanni', 'Puttalam', '072 548 4665', ['Azeem Moulavi', '077 114 1616'], ['Irshad', '072 548 4665']),
+  society("Matale Nadhwathu Is'aafil Janaza", 'Matale', '077 589 0002', ['Riyas', '077 212 1113'], ['Neemathullah', '077 589 0002'], [['PC-8144', 'Van']]),
+  society('Khair Welfare Association, Grandpass', 'Colombo', '070 120 0012', ['Aneef', '070 120 0012'], ['Usman', '075 424 3271']),
+  society('Janaza Service - New Elpitiya, Gelioya', 'Kandy', '077 715 1815', ['Rizan', '077 715 1815'], ['Thariqshad', '077 231 9232'], [['251-8018', 'Van']]),
+  society('Dehiwela Jumma Masjid', 'Colombo', '077 758 7357', ['Ismail Haji', '077 758 7357'], ['Thahir Haji', '077 441 1861']),
+  society('Al Masjidus Subhani Grand Masjid, Kal-Eliya', 'Gampaha', '072 680 0068', ['Faham', '072 680 0068'], ['Imthiyas', '077 392 6295']),
+  society('Karapitiya Janaza Service, Galle', 'Galle', '077 608 5449', ['Buhari', '077 608 5449'], ['Yesir', '077 972 7206']),
+  society('Barakath Welfare Society, Kattankudy', 'Batticaloa', '077 179 1335', ['Sanoon', '077 379 4858'], ['Asmi', '077 179 1335'], [['LF-7990', 'Batta']]),
+  society('Y2K Janaza Welfare Service (Addalaichenai)', 'Ampara', '077 747 4094', ['Nihar', '077 747 4094'], ['Rifas', '075 609 5839']),
+  society('Social Services & Janaza Society, Colombo-15', 'Colombo', '071 426 1026', ['A.M. Abdul Jabbar', '077 367 9684'], ['Abdul Salam (Treasurer)', '071 426 1026'], [['PX-4803', 'Bolero']]),
+  society('Sonehavaadi Janaza Society - Trincomalee Town', 'Trincomalee', '077 059 3535', ['Kuraisi'], ['Ibrahim (Unani Doctor)', '077 059 3535']),
+  // The sheet lists this society as "Trincomalee unknown name".
+  society('Trincomalee Janaza Society (name to be confirmed)', 'Trincomalee', '077 237 8878', ['Hafeel', '077 237 8878'], ['Manaf'], [], hidden),
+  society('Katugoda Janaza Service', 'Galle', '077 711 9447', ['Fasmi', '077 711 9447'], ['Fasly'], [['PY-5665', 'Bolero']]),
+  society('Maruthamunai Janaza Welfare Society', 'Ampara', '076 858 5983', ['S.M. Riyas', '076 858 5983'], ['Arshad', '075 430 0082'], [['DAG-8405', 'Double Cab']]),
+  society('Hemmathagama Masjid Welfare Association', 'Kandy', '077 710 9909', ['Mansoor Hajiyar', '077 710 9909'], [undefined, '075 918 7173'], [['PJ-0650', 'Van']]),
+  society('Buhary Janaza Welfare Foundation', 'Matara', '075 518 2680', ['Shaheebullah', '072 440 9574'], ['Shiyam', '075 518 2680']),
+  society('Kanthale Janaza Welfare Society', 'Trincomalee', '077 825 4150', ['Riyal Hajiyar', '077 353 8336 / 077 825 4150'], ['Rimsath', '076 013 1454']),
+  society('Puttalam Janaza Welfare Society', 'Puttalam', '077 840 1400', [], ['Aathif', '077 840 1400'], [['PI-4850', 'Van']]),
+  society('Janaza Welfare Organization Maligaikadu', 'Ampara', '077 777 4414', ['Inthiyas', '077 777 4414'], ['Fahim', '078 383 9557'], [['EP PQ-5527', 'Batta']]),
+  society('சாய்ந்தமருது ஜனாஸா நலன்புரி மக்கள் பேரவை', 'Ampara', '077 900 0771', ['Naseer', '077 900 0771'], ['Mursith (Treasurer)', '077 263 3281'], [['DAI-0371', 'Batta']]),
+  society('Young Birds Janaza Welfare Organization Kalmunai', 'Ampara', '077 858 2721', ['Marsook', '077 858 2721'], ['Fais', '077 582 3642']),
+  society('Al Fathah Janaza Welfare Organization Sainthamaruthu', 'Ampara', '075 404 1482', ['Rifas', '076 305 4861'], ['Faleel (Vice Chairman)', '075 404 1482'], [['DAI-0371', 'Double Cab']]),
+  society('Janaza Welfare Services - Addalaichenai', 'Ampara', '077 453 0333', ['Janoon', '077 263 6887'], ['Hafeel', '077 453 0333']),
+  // The sheet also lists 076 188 2626 as a second hotline.
+  society('Janaza Welfare Association - Sammanthurai', 'Ampara', '077 909 0406', ['Ramees Haafiz', '077 820 4145'], ['Imam']),
+  society('NJWA - Nintavur Janaza Welfare Association - Sri Lanka', 'Ampara', '077 867 8989', ['Riyas', '077 867 2929'], ['Sulaiman', '077 471 6517'], [['NE-3642', 'Van']]),
+  // No phone number on the sheet: the main hotline stands in until the society's own is known.
+  society('ஜனாஸா நலன்புரி மக்கள் அமைப்பு - Mavadippalli', 'Ampara', MAIN_HOTLINE, ['Nafar'], ['Niyas'], [], hidden),
+  society('ISWAA Janaza and Emergency Service', 'Ampara', '070 699 9909', ['Ajmal Moulavi', '070 699 9909'], ['Maajid Moulavi', '076 840 0775'], [['PF-2441', 'Van']]),
+  society('Pottuvil Janaza Welfare Society', 'Ampara', '070 603 5435', ['Abdul Nayeem', '077 303 5721'], ['Abdul Jabbar', '070 603 5435'], [['PI-4850', 'Van']]),
+  society('United Janaza Service - Kegalle Grand Jumma Mosque', 'Kegalle', '077 357 9021', ['Rizan', '077 357 9021'], ['Rizvi', '077 714 8841'], [['PC-1455', 'Van']]),
+  // Runs a van; its number is not on the sheet yet.
+  society('Hussain Rashard Janaza Foundation & Education', 'Colombo', '078 815 9002', ['Hussain Rashard', '078 815 9002']),
+  society('Illukuwatta Janaza Welfare Society', 'Kandy', '077 724 7991', ['Akram', '077 724 7991'], ['Sadhir', '077 734 3695']),
+  society('ETC Janaza Welfare Society - Katpitiya', 'Puttalam', '077 616 1685', ['Jesmin Hajiyar', '077 616 1685'], ['Ihsan', '071 484 1055']),
+  society('Ambarapola Reunion Welfare Society', 'Kandy', '077 758 9804', ['Faizar Hajiyar'], ['Riyas', '077 758 9804']),
+  society('Madulbowa Bathibiya Janaza Welfare Association', 'Kegalle', '077 918 7173', ['Fowsul Ameen', '077 919 4500'], ['Rizvi', '077 918 7173'], [['251-1711', 'Van']]),
+  society('Gintota Muhaitheen Jumma Masjid Janaza Service', 'Galle', '077 902 1808', ['Fairoos Hajiyar', '077 639 3915'], [], [['PW-4646', 'Bolero']]),
+  society('Diyatalawa Janaza Welfare Society', 'Badulla', '076 387 8387', ['Nawas', '072 478 3380'], ['Hashimdeen', '076 387 8387']),
+  society('Muthur Janaza Society', 'Trincomalee', '076 269 9906', ['Laafir Hajiyar', '075 517 6889 / 076 269 9906'], ['M.A. Yaasir', '077 363 8573']),
+  society('Elabodagama Janaza Society', 'Kurunegala', '071 633 2644', ['Ramzeen Hajiyar', '071 633 2644'], ['Riyasdeen Mufthi']),
+  society('Kattankudy Janaza Welfare Society', 'Batticaloa', '076 825 6425', ['M.H.S. Hameed Hajiyar', '077 737 8753'], ['S.M. Firthous', '077 420 3109'], [['PE-6367', 'Van']]),
+  society('Chilaw Janaza Welfare Association', 'Puttalam', '077 784 1284', ['Ramsan Hajiyar', '077 784 1284'], [], [['DAH-8145', 'Batta']]),
+]
+  .sort((a, b) => a.name.localeCompare(b.name))
+  .map((entry, index) => ({ ...entry, sortOrder: index + 1 }));
 
 const ctaBanner = {
   badge: 'Zero Fees · Zero Bureaucracy',
@@ -405,14 +479,42 @@ const seedRegions = async (strapi) => {
   console.log(`created ${regions.length} Farzan bases`);
 };
 
+const partnerKey = (name) => name.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
+
+// Applies the partner list once per PARTNERS_VERSION, so later edits in the admin are not undone
+// by re-running the seed. Societies are matched by name: new ones are created, existing ones get
+// the sheet's details while keeping their photos, coordinates, visibility and vehicle payment notes.
 const seedPartners = async (strapi) => {
   const uid = 'api::partner.partner';
-  if ((await strapi.documents(uid).count()) > 0) {
-    console.log(`skip    ${uid} (already has content)`);
+  const store = strapi.store({ type: 'core', name: 'seed' });
+  if ((await store.get({ key: 'partnersVersion' })) === PARTNERS_VERSION) {
+    console.log(`skip    ${uid} (list ${PARTNERS_VERSION} already applied)`);
     return;
   }
-  for (const data of partners) await strapi.documents(uid).create({ data });
-  console.log(`created ${partners.length} partner societies`);
+
+  const existing = await strapi.documents(uid).findMany({ populate: ['vehicles'], limit: 1000 });
+  const byKey = new Map(existing.map((entry) => [partnerKey(entry.name), entry]));
+  let created = 0;
+  let updated = 0;
+  for (const data of partners) {
+    const match = byKey.get(partnerKey(data.name));
+    if (!match) {
+      await strapi.documents(uid).create({ data });
+      created += 1;
+      continue;
+    }
+    byKey.delete(partnerKey(data.name));
+    const vehicles = data.vehicles.map((vehicle) => {
+      const previous = match.vehicles?.find((v) => v.vehicleNumber === vehicle.vehicleNumber);
+      return { ...vehicle, ...(previous?.payment && { payment: previous.payment }), ...(previous?.paymentNote && { paymentNote: previous.paymentNote }) };
+    });
+    const { showOnWebsite, ...details } = data;
+    await strapi.documents(uid).update({ documentId: match.documentId, data: { ...details, vehicles } });
+    updated += 1;
+  }
+  await store.set({ key: 'partnersVersion', value: PARTNERS_VERSION });
+  console.log(`synced  ${uid} (${created} created, ${updated} updated from list ${PARTNERS_VERSION})`);
+  for (const entry of byKey.values()) console.log(`        not on the list, left as is: ${entry.name}`);
 };
 
 // Databases seeded before the partner network existed: add the new Coverage section as a draft
