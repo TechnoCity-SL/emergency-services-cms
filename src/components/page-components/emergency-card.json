@@ -20,7 +20,7 @@
     },
     "description": {
       "type": "text",
-      "maxLength": 100,
+      "maxLength": 300,
       "required": true
     },
     "Button": {

@@ -206,7 +206,7 @@ export interface PageComponentsEmergencyCard extends Struct.ComponentSchema {
     description: Schema.Attribute.Text &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
-        maxLength: 100;
+        maxLength: 300;
       }>;
     heading: Schema.Attribute.String & Schema.Attribute.Required;
     icon: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;

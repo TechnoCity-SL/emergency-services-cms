@@ -391,7 +391,7 @@ const COMPONENTS: Record<string, ModelHelp> = {
   'page-components.emergency-card': {
     icon: { label: 'Icon image', description: 'Small square image or SVG, around 64×64px.' },
     heading: { label: 'Heading', placeholder: 'Emergency Ambulance' },
-    description: { label: 'Description', description: 'Max 100 characters.' },
+    description: { label: 'Description', description: 'Max 300 characters.' },
     Button: { label: 'Button', description: 'Optional.' },
   },
 
