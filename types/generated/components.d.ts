@@ -396,7 +396,7 @@ export interface PageComponentsRegionalCoverageSection
     description: Schema.Attribute.Text &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
-        maxLength: 100;
+        maxLength: 300;
       }>;
     districtsLabel: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Districts'>;
