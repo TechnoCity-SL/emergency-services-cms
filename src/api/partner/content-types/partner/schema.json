@@ -145,7 +145,7 @@
       }
     },
     "latitude": {
-      "type": "decimal",
+      "type": "float",
       "pluginOptions": {
         "i18n": {
           "localized": false
@@ -153,7 +153,7 @@
       }
     },
     "longitude": {
-      "type": "decimal",
+      "type": "float",
       "pluginOptions": {
         "i18n": {
           "localized": false

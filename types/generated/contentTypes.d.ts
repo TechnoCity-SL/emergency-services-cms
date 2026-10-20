@@ -885,7 +885,7 @@ export interface ApiPartnerPartner extends Struct.CollectionTypeSchema {
           localized: false;
         };
       }>;
-    latitude: Schema.Attribute.Decimal &
+    latitude: Schema.Attribute.Float &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
@@ -896,7 +896,7 @@ export interface ApiPartnerPartner extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::partner.partner'
     >;
-    longitude: Schema.Attribute.Decimal &
+    longitude: Schema.Attribute.Float &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: false;

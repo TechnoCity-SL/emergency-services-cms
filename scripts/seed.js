@@ -86,7 +86,7 @@ const regions = [
 // (Soceities/Emergency Services Content Management.xlsx, 16 October 2026).
 // Coordinates come from the sheet's Latitude/Longitude columns (see `locations` below).
 // Bump this when the list below is replaced, so the next seed run applies it once.
-const PARTNERS_VERSION = '2026-10-20';
+const PARTNERS_VERSION = '2026-10-16';
 
 const provinceByDistrict = {
   Colombo: 'Western Province', Gampaha: 'Western Province', Kalutara: 'Western Province',
