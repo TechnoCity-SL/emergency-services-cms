@@ -84,9 +84,9 @@ const regions = [
 
 // Partner societies registered with Farzan Janaza
 // (Soceities/Emergency Services Content Management.xlsx, 16 October 2026).
-// Coordinates are not known yet — the website places these pins in the middle of the district.
+// Coordinates come from the sheet's Latitude/Longitude columns (see `locations` below).
 // Bump this when the list below is replaced, so the next seed run applies it once.
-const PARTNERS_VERSION = '2026-10-16';
+const PARTNERS_VERSION = '2026-10-20';
 
 const provinceByDistrict = {
   Colombo: 'Western Province', Gampaha: 'Western Province', Kalutara: 'Western Province',
@@ -119,6 +119,68 @@ const society = (name, district, hotline, [presidentName, presidentPhone] = [], 
 
 // Kept off the website until an editor fills in what is missing.
 const hidden = { showOnWebsite: false };
+
+// [latitude, longitude] from the sheet (degree-minute-second values converted to decimal).
+// Left out, so the website keeps the district-centre pin until corrected:
+//   Thoppur Janaza Welfare Society — the sheet's 11.939, 78.057 is in Tamil Nadu, India.
+//   Silmiyapura Janaza Society — the sheet's 6.915, 80.842 is in the hill country, not Puttalam.
+const locations = {
+  'Galagedara Janaza Welfare Society': [7.360083, 80.538889],
+  'Jamaliya Janaza Welfare Society': [8.593111, 81.219972],
+  'Poruthota Janaza Welfare Association - PJWA': [7.258694, 79.846028],
+  'Vavuniya Pattanichoor Janaza Welfare Co-Op Society': [8.763043, 80.482232],
+  'Al Wadha Janaza Welfare Services': [8.029714, 79.830678],
+  'Janaza Foundation Kalpitiya': [8.223979, 79.77044],
+  'Gurutawala Janaza Services': [6.84666, 80.902462],
+  'Badulla Janaza Welfare Association': [6.991986, 81.053374],
+  'Janaza Services Jannath Jumma Masjid': [6.686462, 80.407544],
+  'Beruwela Janaza Service': [6.475921, 79.984065],
+  'Nuwara Eliya Hawaeliya Janaza Society': [6.97293, 80.779486],
+  'Kalkudah Janaza Welfare Services': [7.924641, 81.544496],
+  'Kinniya Janaza Welfare Association': [8.502629, 81.180167],
+  'Irakkamam Grand Masjidh Janaza Foundation': [7.244202, 81.745624],
+  'Thaiba Welfare Association': [7.204939, 79.851898],
+  'Minan Janaza Welfare Society Aandankanni': [8.080069, 79.723842],
+  "Matale Nadhwathu Is'aafil Janaza": [7.466972, 80.62199],
+  'Khair Welfare Association, Grandpass': [6.951017, 79.873227],
+  'Janaza Service - New Elpitiya, Gelioya': [7.215286, 80.597897],
+  'Dehiwela Jumma Masjid': [6.864245, 79.865809],
+  'Al Masjidus Subhani Grand Masjid, Kal-Eliya': [7.193353, 80.10663],
+  'Karapitiya Janaza Service, Galle': [6.070555, 80.225044],
+  'Barakath Welfare Society, Kattankudy': [7.680384, 81.729162],
+  'Y2K Janaza Welfare Service (Addalaichenai)': [7.248845, 81.8572],
+  'Social Services & Janaza Society, Colombo-15': [6.966964, 79.871896],
+  'Sonehavaadi Janaza Society - Trincomalee Town': [8.586432, 81.213902],
+  'Trincomalee Janaza Society (name to be confirmed)': [8.586432, 81.213902],
+  'Katugoda Janaza Service': [6.03487, 80.239728],
+  'Maruthamunai Janaza Welfare Society': [7.435635, 81.813812],
+  'Hemmathagama Masjid Welfare Association': [7.173337, 80.500495],
+  'Buhary Janaza Welfare Foundation': [5.949602, 80.547229],
+  'Kanthale Janaza Welfare Society': [8.366431, 81.002781],
+  'Puttalam Janaza Welfare Society': [8.030311, 79.830679],
+  'Janaza Welfare Organization Maligaikadu': [7.387147, 81.840579],
+  'சாய்ந்தமருது ஜனாஸா நலன்புரி மக்கள் பேரவை': [7.39245, 81.834497],
+  'Young Birds Janaza Welfare Organization Kalmunai': [7.415329, 81.825417],
+  'Al Fathah Janaza Welfare Organization Sainthamaruthu': [7.39245, 81.834497],
+  'Janaza Welfare Services - Addalaichenai': [7.248845, 81.8572],
+  'Janaza Welfare Association - Sammanthurai': [7.363113, 81.798656],
+  'NJWA - Nintavur Janaza Welfare Association - Sri Lanka': [7.348802, 81.845097],
+  'ஜனாஸா நலன்புரி மக்கள் அமைப்பு - Mavadippalli': [7.372043, 81.821559],
+  'ISWAA Janaza and Emergency Service': [7.348802, 81.845097],
+  'Pottuvil Janaza Welfare Society': [6.875886, 81.829141],
+  'United Janaza Service - Kegalle Grand Jumma Mosque': [7.252742, 80.343155],
+  'Hussain Rashard Janaza Foundation & Education': [6.926779, 79.861869],
+  'Illukuwatta Janaza Welfare Society': [7.258295, 80.545691],
+  'ETC Janaza Welfare Society - Katpitiya': [8.22952, 79.759717],
+  'Ambarapola Reunion Welfare Society': [7.217558, 80.572858],
+  'Madulbowa Bathibiya Janaza Welfare Association': [7.173211, 80.514004],
+  'Gintota Muhaitheen Jumma Masjid Janaza Service': [6.060671, 80.180175],
+  'Diyatalawa Janaza Welfare Society': [6.806875, 80.956285],
+  'Muthur Janaza Society': [8.457639, 81.268573],
+  'Elabodagama Janaza Society': [7.355059, 80.027091],
+  'Kattankudy Janaza Welfare Society': [7.680469, 81.72899],
+  'Chilaw Janaza Welfare Association': [7.577327, 79.793036],
+};
 
 const partners = [
   society('Galagedara Janaza Welfare Society', 'Kandy', '075 520 9956', ['Rismi', '075 520 9956']),
@@ -185,6 +247,10 @@ const partners = [
   society('Kattankudy Janaza Welfare Society', 'Batticaloa', '076 825 6425', ['M.H.S. Hameed Hajiyar', '077 737 8753'], ['S.M. Firthous', '077 420 3109'], [['PE-6367', 'Van']]),
   society('Chilaw Janaza Welfare Association', 'Puttalam', '077 784 1284', ['Ramsan Hajiyar', '077 784 1284'], [], [['DAH-8145', 'Batta']]),
 ]
+  .map((entry) => {
+    const [latitude, longitude] = locations[entry.name] ?? [];
+    return latitude === undefined ? entry : { ...entry, latitude, longitude };
+  })
   .sort((a, b) => a.name.localeCompare(b.name))
   .map((entry, index) => ({ ...entry, sortOrder: index + 1 }));
 
@@ -483,7 +549,8 @@ const partnerKey = (name) => name.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
 
 // Applies the partner list once per PARTNERS_VERSION, so later edits in the admin are not undone
 // by re-running the seed. Societies are matched by name: new ones are created, existing ones get
-// the sheet's details while keeping their photos, coordinates, visibility and vehicle payment notes.
+// the sheet's details (including coordinates, where the sheet has them) while keeping their photos,
+// visibility and vehicle payment notes.
 const seedPartners = async (strapi) => {
   const uid = 'api::partner.partner';
   const store = strapi.store({ type: 'core', name: 'seed' });
