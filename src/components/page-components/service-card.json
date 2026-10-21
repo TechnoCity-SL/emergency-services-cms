@@ -16,6 +16,13 @@
         "audios"
       ]
     },
+    "Gallery": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
     "tag": {
       "type": "string"
     },

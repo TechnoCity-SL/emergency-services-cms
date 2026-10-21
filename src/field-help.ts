@@ -505,7 +505,8 @@ const COMPONENTS: Record<string, ModelHelp> = {
   },
 
   'page-components.service-card': {
-    Image: { label: 'Image', description: 'Landscape, at least 800px wide.' },
+    Image: { label: 'Image', description: 'Landscape, at least 800px wide. Shown when the slideshow below is empty.' },
+    Gallery: { label: 'Slideshow photos', description: 'Optional. Add several landscape photos (e.g. 5 vehicles) to show a slideshow instead of the single image. Visitors can click it to view them full size.' },
     tag: { label: 'Tag', description: 'Small label on the image. Optional.' },
     title: { label: 'Title', placeholder: 'Free Janaza Transport' },
     description: { label: 'Description' },

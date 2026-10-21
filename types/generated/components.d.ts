@@ -425,6 +425,7 @@ export interface PageComponentsServiceCard extends Struct.ComponentSchema {
     Button: Schema.Attribute.Component<'atoms.button', true>;
     description: Schema.Attribute.Text;
     features: Schema.Attribute.String;
+    Gallery: Schema.Attribute.Media<'images', true>;
     Image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     tag: Schema.Attribute.String;
     title: Schema.Attribute.String;
