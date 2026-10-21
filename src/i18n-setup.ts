@@ -50,7 +50,7 @@ const link = (url: string, label: string) => ({ type: 'link', url, children: [te
 
 const DRAFT_NOTICE =
   'Draft — pending legal review. This placeholder text has not been reviewed by legal counsel and must not be treated as final.';
-const COMPANY = 'Farzan Janaza and Emergency Services (G) Ltd';
+const COMPANY = 'Farzan Emergency Services (G) Ltd';
 
 const LEGAL_PAGES_EN = [
   {
