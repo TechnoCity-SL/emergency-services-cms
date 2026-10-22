@@ -147,7 +147,7 @@ const locations = {
   'Dehiwela Jumma Masjid': [6.864245, 79.865809],
   'Al Masjidus Subhani Grand Masjid, Kal-Eliya': [7.193353, 80.10663],
   'Karapitiya Janaza Service, Galle': [6.070555, 80.225044],
-  'Barakath Welfare Society, Kattankudy': [7.680384, 81.729162],
+  'Barakath Welfare Society, Kattankudy': [7.68891121322138, 81.7352756234537],
   'Y2K Janaza Welfare Service (Addalaichenai)': [7.248845, 81.8572],
   'Social Services & Janaza Society, Colombo-15': [6.966964, 79.871896],
   'Sonehavaadi Janaza Society - Trincomalee Town': [8.586432, 81.213902],
@@ -178,7 +178,7 @@ const locations = {
   'Diyatalawa Janaza Welfare Society': [6.806875, 80.956285],
   'Muthur Janaza Society': [8.457639, 81.268573],
   'Elabodagama Janaza Society': [7.355059, 80.027091],
-  'Kattankudy Janaza Welfare Society': [7.680469, 81.72899],
+  'Kattankudy Janaza Welfare Society': [7.68046905727807, 81.7289899752502],
   'Chilaw Janaza Welfare Association': [7.577327, 79.793036],
 };
 
