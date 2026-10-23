@@ -10,7 +10,7 @@ primary_region = 'sin'
   IS_PROXIED = 'true'
   NODE_ENV = 'production'
   PORT = '1337'
-  PUBLIC_URL = 'https://emergency-services-cms.fly.dev'
+  PUBLIC_URL = 'https://cms-fes.vexous.com'
   STRAPI_TELEMETRY_DISABLED = 'true'
 
 # The site only reads the CMS at build time and on publish (/api/revalidate), and its client
