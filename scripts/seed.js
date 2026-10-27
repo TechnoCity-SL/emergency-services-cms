@@ -3,6 +3,7 @@
 //
 //   npm run seed                      -> local SQLite
 //   NODE_ENV=production npm run seed  -> Supabase (uses the production DATABASE_* settings)
+//   npm run seed -- --replace-legal   -> only overwrite the Privacy Policy / Terms of Service pages
 const { compileStrapi, createStrapi } = require('@strapi/strapi');
 
 // One islandwide number. District lines can be added later (with "districts" filled in) and
@@ -1248,29 +1249,39 @@ const legalPages = { en: legalPagesEn, si: legalPagesSi, ta: legalPagesTa };
 
 // The CMS creates English placeholder legal pages on startup (src/i18n-setup.ts, notice "Draft —
 // pending legal review"). Replace those with the full text and add the missing translations; pages
-// an editor has changed are left alone.
+// an editor has changed are left alone unless `replace` is set (npm run seed -- --replace-legal).
 const isLegalPlaceholder = (entry) => entry.notice?.startsWith('Draft — pending legal review');
 
-const seedLegalPages = async (strapi) => {
+const seedLegalPages = async (strapi, { replace = false } = {}) => {
   const uid = 'api::legal-page.legal-page';
   for (const [locale, pages] of Object.entries(legalPages)) {
-    for (const data of pages) {
+    // No notice box on these pages; send it empty so an old placeholder notice is cleared too.
+    for (const data of pages.map((page) => ({ notice: null, ...page }))) {
       const label = `${uid} ${data.page} (${locale})`;
-      const existing = await strapi.documents(uid).findFirst({ locale, filters: { page: data.page } });
-      if (existing && !isLegalPlaceholder(existing)) {
+      const english = locale === 'en' ? undefined : await strapi.documents(uid).findFirst({ locale: 'en', filters: { page: data.page } });
+      let existing = await strapi.documents(uid).findFirst({ locale, filters: { page: data.page } });
+      if (existing && !replace && !isLegalPlaceholder(existing)) {
         console.log(`skip    ${label} (already has content)`);
         continue;
       }
+      // A translation saved as its own entry instead of on the English one: remove it, so the
+      // page has one entry with every language.
+      if (replace && english) {
+        const strays = await strapi.documents(uid).findMany({ locale, filters: { page: data.page, documentId: { $ne: english.documentId } } });
+        for (const stray of strays) {
+          await strapi.documents(uid).delete({ documentId: stray.documentId, locale });
+          console.log(`deleted ${label} (separate entry ${stray.documentId})`);
+        }
+        if (strays.some((stray) => stray.documentId === existing?.documentId)) existing = undefined;
+      }
       // A translation is added to the English entry for the same page.
-      const documentId =
-        existing?.documentId ??
-        (locale === 'en' ? undefined : (await strapi.documents(uid).findFirst({ locale: 'en', filters: { page: data.page } }))?.documentId);
+      const documentId = existing?.documentId ?? english?.documentId;
       if (documentId) {
         await strapi.documents(uid).update({ documentId, locale, data, status: 'published' });
       } else {
         await strapi.documents(uid).create({ locale, data, status: 'published' });
       }
-      console.log(`${existing ? 'updated' : 'created'} ${label}${existing ? ' (replaced placeholder)' : ''}`);
+      console.log(`${existing ? 'updated' : 'created'} ${label}`);
     }
   }
 };
@@ -1368,6 +1379,16 @@ const main = async () => {
   const app = await createStrapi(await compileStrapi()).load();
   app.log.level = 'error';
   try {
+    // Overwrites the legal pages with the text above, whatever they contain now. Nothing else runs.
+    if (process.argv.includes('--replace-legal')) {
+      await seedLegalPages(app, { replace: true });
+      // Publishing tells the website to regenerate after a short debounce (src/revalidate.ts);
+      // stay up long enough for that call to finish.
+      console.log('waiting for the website to regenerate...');
+      app.log.level = 'info';
+      await new Promise((resolve) => setTimeout(resolve, 45_000));
+      return;
+    }
     await seedGlobal(app);
     await seedRegions(app);
     await seedPartners(app);
