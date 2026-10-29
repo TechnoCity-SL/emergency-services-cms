@@ -4,6 +4,8 @@
 //   npm run seed                      -> local SQLite
 //   NODE_ENV=production npm run seed  -> Supabase (uses the production DATABASE_* settings)
 //   npm run seed -- --replace-legal   -> only overwrite the Privacy Policy / Terms of Service pages
+//   npm run seed -- --translate-partners -> only add Sinhala/Tamil versions of the partner societies
+//   npm run seed -- --translate-names    -> only write president/secretary names in Sinhala/Tamil
 const { compileStrapi, createStrapi } = require('@strapi/strapi');
 
 // One islandwide number. District lines can be added later (with "districts" filled in) and
@@ -160,13 +162,13 @@ const locations = {
   'Kanthale Janaza Welfare Society': [8.366431, 81.002781],
   'Puttalam Janaza Welfare Society': [8.030311, 79.830679],
   'Janaza Welfare Organization Maligaikadu': [7.387147, 81.840579],
-  'சாய்ந்தமருது ஜனாஸா நலன்புரி மக்கள் பேரவை': [7.39245, 81.834497],
+  "Sainthamaruthu Janaza Welfare People's Council": [7.39245, 81.834497],
   'Young Birds Janaza Welfare Organization Kalmunai': [7.415329, 81.825417],
   'Al Fathah Janaza Welfare Organization Sainthamaruthu': [7.39245, 81.834497],
   'Janaza Welfare Services - Addalaichenai': [7.248845, 81.8572],
   'Janaza Welfare Association - Sammanthurai': [7.363113, 81.798656],
   'NJWA - Nintavur Janaza Welfare Association - Sri Lanka': [7.348802, 81.845097],
-  'ஜனாஸா நலன்புரி மக்கள் அமைப்பு - Mavadippalli': [7.372043, 81.821559],
+  "Janaza Welfare People's Organization - Mavadippalli": [7.372043, 81.821559],
   'ISWAA Janaza and Emergency Service': [7.348802, 81.845097],
   'Pottuvil Janaza Welfare Society': [6.875886, 81.829141],
   'United Janaza Service - Kegalle Grand Jumma Mosque': [7.252742, 80.343155],
@@ -223,7 +225,7 @@ const partners = [
   society('Kanthale Janaza Welfare Society', 'Trincomalee', '077 825 4150', ['Riyal Hajiyar', '077 353 8336 / 077 825 4150'], ['Rimsath', '076 013 1454']),
   society('Puttalam Janaza Welfare Society', 'Puttalam', '077 840 1400', [], ['Aathif', '077 840 1400'], [['PI-4850', 'Van']]),
   society('Janaza Welfare Organization Maligaikadu', 'Ampara', '077 777 4414', ['Inthiyas', '077 777 4414'], ['Fahim', '078 383 9557'], [['EP PQ-5527', 'Batta']]),
-  society('சாய்ந்தமருது ஜனாஸா நலன்புரி மக்கள் பேரவை', 'Ampara', '077 900 0771', ['Naseer', '077 900 0771'], ['Mursith (Treasurer)', '077 263 3281'], [['DAI-0371', 'Batta']]),
+  society("Sainthamaruthu Janaza Welfare People's Council", 'Ampara', '077 900 0771', ['Naseer', '077 900 0771'], ['Mursith (Treasurer)', '077 263 3281'], [['DAI-0371', 'Batta']]),
   society('Young Birds Janaza Welfare Organization Kalmunai', 'Ampara', '077 858 2721', ['Marsook', '077 858 2721'], ['Fais', '077 582 3642']),
   society('Al Fathah Janaza Welfare Organization Sainthamaruthu', 'Ampara', '075 404 1482', ['Rifas', '076 305 4861'], ['Faleel (Vice Chairman)', '075 404 1482'], [['DAI-0371', 'Double Cab']]),
   society('Janaza Welfare Services - Addalaichenai', 'Ampara', '077 453 0333', ['Janoon', '077 263 6887'], ['Hafeel', '077 453 0333']),
@@ -231,7 +233,7 @@ const partners = [
   society('Janaza Welfare Association - Sammanthurai', 'Ampara', '077 909 0406', ['Ramees Haafiz', '077 820 4145'], ['Imam']),
   society('NJWA - Nintavur Janaza Welfare Association - Sri Lanka', 'Ampara', '077 867 8989', ['Riyas', '077 867 2929'], ['Sulaiman', '077 471 6517'], [['NE-3642', 'Van']]),
   // No phone number on the sheet: the main hotline stands in until the society's own is known.
-  society('ஜனாஸா நலன்புரி மக்கள் அமைப்பு - Mavadippalli', 'Ampara', MAIN_HOTLINE, ['Nafar'], ['Niyas'], [], hidden),
+  society("Janaza Welfare People's Organization - Mavadippalli", 'Ampara', MAIN_HOTLINE, ['Nafar'], ['Niyas'], [], hidden),
   society('ISWAA Janaza and Emergency Service', 'Ampara', '070 699 9909', ['Ajmal Moulavi', '070 699 9909'], ['Maajid Moulavi', '076 840 0775'], [['PF-2441', 'Van']]),
   society('Pottuvil Janaza Welfare Society', 'Ampara', '070 603 5435', ['Abdul Nayeem', '077 303 5721'], ['Abdul Jabbar', '070 603 5435'], [['PI-4850', 'Van']]),
   society('United Janaza Service - Kegalle Grand Jumma Mosque', 'Kegalle', '077 357 9021', ['Rizan', '077 357 9021'], ['Rizvi', '077 714 8841'], [['PC-1455', 'Van']]),
@@ -852,6 +854,206 @@ const addPartnersSection = async (strapi) => {
   console.log(`updated ${uid} (added partnersSection as a draft — open Coverage Page and press Publish)`);
 };
 
+// Sinhala and Tamil names for the partner societies, keyed by the English name in the admin.
+// [Sinhala, Tamil]. Place names use their usual local spelling; please have them checked.
+const partnerNameTranslations = {
+  'Al Fathah Janaza Welfare Organization Sainthamaruthu': ['අල් ෆතාහ් ජනාසා සුබසාධක සංවිධානය - සායින්දමරුදු', 'அல் ஃபத்தாஹ் ஜனாஸா நலன்புரி அமைப்பு - சாய்ந்தமருது'],
+  'ISWAA Janaza and Emergency Service': ['ISWAA ජනාසා සහ හදිසි සේවය', 'ISWAA ஜனாஸா மற்றும் அவசர சேவை'],
+  'Irakkamam Grand Masjidh Janaza Foundation': ['ඉරක්කාමම් මහ මස්ජිදයේ ජනාසා පදනම', 'இறக்காமம் பெரிய பள்ளிவாசல் ஜனாஸா அறக்கட்டளை'],
+  'Janaza Welfare Association - Sammanthurai': ['ජනාසා සුබසාධක සංගමය - සම්මාන්තුරේ', 'ஜனாஸா நலன்புரிச் சங்கம் - சம்மாந்துறை'],
+  'Janaza Welfare Organization Maligaikadu': ['ජනාසා සුබසාධක සංවිධානය - මාලිගෛකාඩු', 'ஜனாஸா நலன்புரி அமைப்பு - மாளிகைக்காடு'],
+  'Janaza Welfare Services - Addalaichenai': ['ජනාසා සුබසාධක සේවා - අඩ්ඩාලච්චේන', 'ஜனாஸா நலன்புரிச் சேவைகள் - அட்டாளைச்சேனை'],
+  'Maruthamunai Janaza Welfare Society': ['මරුදමුනේ ජනාසා සුබසාධක සමිතිය', 'மருதமுனை ஜனாஸா நலன்புரிச் சங்கம்'],
+  'NJWA - Nintavur Janaza Welfare Association - Sri Lanka': ['NJWA - නින්දවූර් ජනාසා සුබසාධක සංගමය - ශ්‍රී ලංකාව', 'NJWA - நிந்தவூர் ஜனாஸா நலன்புரிச் சங்கம் - இலங்கை'],
+  'Pottuvil Janaza Welfare Society': ['පොතුවිල් ජනාසා සුබසාධක සමිතිය', 'பொத்துவில் ஜனாஸா நலன்புரிச் சங்கம்'],
+  'Y2K Janaza Welfare Service (Addalaichenai)': ['Y2K ජනාසා සුබසාධක සේවය (අඩ්ඩාලච්චේන)', 'Y2K ஜனாஸா நலன்புரிச் சேவை (அட்டாளைச்சேனை)'],
+  'Young Birds Janaza Welfare Organization Kalmunai': ['යංග් බර්ඩ්ස් ජනාසා සුබසාධක සංවිධානය - කල්මුනේ', 'யங் பேர்ட்ஸ் ஜனாஸா நலன்புரி அமைப்பு - கல்முனை'],
+  "Sainthamaruthu Janaza Welfare People's Council": ['සායින්දමරුදු ජනාසා සුබසාධක ජන සභාව', 'சாய்ந்தமருது ஜனாஸா நலன்புரி மக்கள் பேரவை'],
+  "Janaza Welfare People's Organization - Mavadippalli": ['ජනාසා සුබසාධක ජන සංවිධානය - මාවඩිප්පල්ලි', 'ஜனாஸா நலன்புரி மக்கள் அமைப்பு - மாவடிப்பள்ளி'],
+  'Badulla Janaza Welfare Association': ['බදුල්ල ජනාසා සුබසාධක සංගමය', 'பதுளை ஜனாஸா நலன்புரிச் சங்கம்'],
+  'Diyatalawa Janaza Welfare Society': ['දියතලාව ජනාසා සුබසාධක සමිතිය', 'தியத்தலாவை ஜனாஸா நலன்புரிச் சங்கம்'],
+  'Barakath Welfare Society, Kattankudy': ['බරකත් සුබසාධක සමිතිය, කාත්තන්කුඩි', 'பரகத் நலன்புரிச் சங்கம், காத்தான்குடி'],
+  'Kalkudah Janaza Welfare Services': ['කල්කුඩා ජනාසා සුබසාධක සේවා', 'கல்குடா ஜனாஸா நலன்புரிச் சேவைகள்'],
+  'Kattankudy Janaza Welfare Society': ['කාත්තන්කුඩි ජනාසා සුබසාධක සමිතිය', 'காத்தான்குடி ஜனாஸா நலன்புரிச் சங்கம்'],
+  'Dehiwela Jumma Masjid': ['දෙහිවල ජුම්මා මස්ජිදය', 'தெஹிவளை ஜும்ஆ பள்ளிவாசல்'],
+  'Hussain Rashard Janaza Foundation & Education': ['හුසේන් රෂාඩ් ජනාසා සහ අධ්‍යාපන පදනම', 'ஹுசைன் ரஷாட் ஜனாஸா மற்றும் கல்வி அறக்கட்டளை'],
+  'Khair Welfare Association, Grandpass': ['කයිර් සුබසාධක සංගමය, ග්‍රෑන්ඩ්පාස්', 'கைர் நலன்புரிச் சங்கம், கிராண்ட்பாஸ்'],
+  'Social Services & Janaza Society, Colombo-15': ['සමාජ සේවා සහ ජනාසා සමිතිය, කොළඹ 15', 'சமூக சேவைகள் மற்றும் ஜனாஸா சங்கம், கொழும்பு 15'],
+  'Gintota Muhaitheen Jumma Masjid Janaza Service': ['ගින්තොට මුහියිද්දීන් ජුම්මා මස්ජිදයේ ජනාසා සේවය', 'கிந்தோட்டை முஹியித்தீன் ஜும்ஆ பள்ளிவாசல் ஜனாஸா சேவை'],
+  'Karapitiya Janaza Service, Galle': ['කරාපිටිය ජනාසා සේවය, ගාල්ල', 'கராப்பிட்டிய ஜனாஸா சேவை, காலி'],
+  'Katugoda Janaza Service': ['කටුගොඩ ජනාසා සේවය', 'கட்டுகொடை ஜனாஸா சேவை'],
+  'Al Masjidus Subhani Grand Masjid, Kal-Eliya': ['අල් මස්ජිදුස් සුබ්හානි මහ මස්ජිදය, කල්-එළිය', 'அல் மஸ்ஜிதுஸ் ஸுப்ஹானி பெரிய பள்ளிவாசல், கல்எலிய'],
+  'Poruthota Janaza Welfare Association - PJWA': ['පොරුතොට ජනාසා සුබසාධක සංගමය - PJWA', 'பொருதோட்டை ஜனாஸா நலன்புரிச் சங்கம் - PJWA'],
+  'Thaiba Welfare Association': ['තයිබා සුබසාධක සංගමය', 'தைபா நலன்புரிச் சங்கம்'],
+  'Beruwela Janaza Service': ['බේරුවල ජනාසා සේවය', 'பேருவளை ஜனாஸா சேவை'],
+  'Ambarapola Reunion Welfare Society': ['අඹරපොළ රීයූනියන් සුබසාධක සමිතිය', 'அம்பரப்பொல ரீயூனியன் நலன்புரிச் சங்கம்'],
+  'Galagedara Janaza Welfare Society': ['ගලගෙදර ජනාසා සුබසාධක සමිතිය', 'கலகெதர ஜனாஸா நலன்புரிச் சங்கம்'],
+  'Hemmathagama Masjid Welfare Association': ['හෙම්මාතගම මස්ජිද් සුබසාධක සංගමය', 'ஹெம்மாத்தகம பள்ளிவாசல் நலன்புரிச் சங்கம்'],
+  'Illukuwatta Janaza Welfare Society': ['ඉලුක්වත්ත ජනාසා සුබසාධක සමිතිය', 'இலுக்குவத்தை ஜனாஸா நலன்புரிச் சங்கம்'],
+  'Janaza Service - New Elpitiya, Gelioya': ['ජනාසා සේවය - නව එල්පිටිය, ගෙලිඔය', 'ஜனாஸா சேவை - நியூ எல்பிட்டிய, கெலிஓயா'],
+  'Madulbowa Bathibiya Janaza Welfare Association': ['මඩුල්බෝව බතිබිය ජනාසා සුබසාධක සංගමය', 'மடுல்போவ பதிபிய ஜனாஸா நலன்புரிச் சங்கம்'],
+  'United Janaza Service - Kegalle Grand Jumma Mosque': ['එක්සත් ජනාසා සේවය - කෑගල්ල මහ ජුම්මා පල්ලිය', 'ஐக்கிய ஜனாஸா சேவை - கேகாலை பெரிய ஜும்ஆ பள்ளிவாசல்'],
+  'Elabodagama Janaza Society': ['ඇලබොඩගම ජනාසා සමිතිය', 'எலபொடகம ஜனாஸா சங்கம்'],
+  "Matale Nadhwathu Is'aafil Janaza": ['මාතලේ නද්වතු ඉස්ආෆිල් ජනාසා', 'மாத்தளை நத்வது இஸ்ஆஃபில் ஜனாஸா'],
+  'Buhary Janaza Welfare Foundation': ['බුහාරි ජනාසා සුබසාධක පදනම', 'புஹாரி ஜனாஸா நலன்புரி அறக்கட்டளை'],
+  'Nuwara Eliya Hawaeliya Janaza Society': ['නුවරඑළිය හාවාඑළිය ජනාසා සමිතිය', 'நுவரெலியா ஹாவாஎலிய ஜனாஸா சங்கம்'],
+  'Al Wadha Janaza Welfare Services': ['අල් වධා ජනාසා සුබසාධක සේවා', 'அல் வதா ஜனாஸா நலன்புரிச் சேவைகள்'],
+  'Chilaw Janaza Welfare Association': ['හලාවත ජනාසා සුබසාධක සංගමය', 'சிலாபம் ஜனாஸா நலன்புரிச் சங்கம்'],
+  'ETC Janaza Welfare Society - Katpitiya': ['ETC ජනාසා සුබසාධක සමිතිය - කල්පිටිය', 'ETC ஜனாஸா நலன்புரிச் சங்கம் - கற்பிட்டி'],
+  'Janaza Foundation Kalpitiya': ['ජනාසා පදනම - කල්පිටිය', 'ஜனாஸா அறக்கட்டளை - கற்பிட்டி'],
+  'Minan Janaza Welfare Society Aandankanni': ['මිනාන් ජනාසා සුබසාධක සමිතිය - ආණ්ඩාන්කන්නි', 'மினான் ஜனாஸா நலன்புரிச் சங்கம் - ஆண்டான்கன்னி'],
+  'Puttalam Janaza Welfare Society': ['පුත්තලම ජනාසා සුබසාධක සමිතිය', 'புத்தளம் ஜனாஸா நலன்புரிச் சங்கம்'],
+  'Silmiyapura Janaza Society': ['සිල්මියාපුර ජනාසා සමිතිය', 'சில்மியாபுர ஜனாஸா சங்கம்'],
+  'Gurutawala Janaza Services': ['ගුරුතලාව ජනාසා සේවා', 'குருத்தலாவ ஜனாஸா சேவைகள்'],
+  'Janaza Services Jannath Jumma Masjid': ['ජනාසා සේවා - ජන්නත් ජුම්මා මස්ජිදය', 'ஜனாஸா சேவைகள் - ஜன்னத் ஜும்ஆ பள்ளிவாசல்'],
+  'Jamaliya Janaza Welfare Society': ['ජමාලියා ජනාසා සුබසාධක සමිතිය', 'ஜமாலியா ஜனாஸா நலன்புரிச் சங்கம்'],
+  'Kanthale Janaza Welfare Society': ['කන්තලේ ජනාසා සුබසාධක සමිතිය', 'கந்தளாய் ஜனாஸா நலன்புரிச் சங்கம்'],
+  'Kinniya Janaza Welfare Association': ['කින්නියා ජනාසා සුබසාධක සංගමය', 'கிண்ணியா ஜனாஸா நலன்புரிச் சங்கம்'],
+  'Muthur Janaza Society': ['මූදූර් ජනාසා සමිතිය', 'மூதூர் ஜனாஸா சங்கம்'],
+  'Sonehavaadi Janaza Society - Trincomalee Town': ['සෝනගවාඩි ජනාසා සමිතිය - ත්‍රිකුණාමල නගරය', 'சோனகவாடி ஜனாஸா சங்கம் - திருகோணமலை நகரம்'],
+  'Thoppur Janaza Welfare Society': ['තෝප්පූර් ජනාසා සුබසාධක සමිතිය', 'தோப்பூர் ஜனாஸா நலன்புரிச் சங்கம்'],
+  'Trincomalee Janaza Society (name to be confirmed)': ['ත්‍රිකුණාමල ජනාසා සමිතිය (නම තහවුරු කළ යුතුය)', 'திருகோணமலை ஜனாஸா சங்கம் (பெயர் உறுதிப்படுத்தப்பட வேண்டும்)'],
+  'Vavuniya Pattanichoor Janaza Welfare Co-Op Society': ['වව්නියාව පට්ටනිච්චූර් ජනාසා සුබසාධක සමුපකාර සමිතිය', 'வவுனியா பட்டாணிச்சூர் ஜனாஸா நலன்புரிக் கூட்டுறவுச் சங்கம்'],
+};
+
+// English entries that were saved with their Tamil name: [Tamil name, English name].
+const partnerEnglishNames = [
+  ['சாய்ந்தமருது ஜனாஸா நலன்புரி மக்கள் பேரவை', "Sainthamaruthu Janaza Welfare People's Council"],
+  ['ஜனாஸா நலன்புரி மக்கள் அமைப்பு - Mavadippalli', "Janaza Welfare People's Organization - Mavadippalli"],
+];
+
+// Adds the Sinhala and Tamil versions of each partner society (npm run seed -- --translate-partners).
+// The name is translated; president and secretary names stay as written in English. Phones,
+// vehicles, map location and photos are shared by every language. Existing translations are kept.
+const translatePartners = async (strapi) => {
+  const uid = 'api::partner.partner';
+  const byKey = new Map(Object.entries(partnerNameTranslations).map(([name, names]) => [partnerKey(name), names]));
+  const partners = await strapi.documents(uid).findMany({ locale: 'en', limit: 1000 });
+  console.log(`found   ${partners.length} English partner societies`);
+  const counts = { added: 0, kept: 0 };
+  const englishNames = new Map(partnerEnglishNames.map(([tamil, english]) => [partnerKey(tamil), english]));
+  for (const partner of partners) {
+    const englishName = englishNames.get(partnerKey(partner.name));
+    if (englishName) {
+      await strapi.documents(uid).update({ documentId: partner.documentId, locale: 'en', data: { name: englishName } });
+      console.log(`renamed en ${partner.name} -> ${englishName}`);
+      partner.name = englishName;
+    }
+    const names = byKey.get(partnerKey(partner.name));
+    if (!names) {
+      console.log(`        no translation for: ${partner.name}`);
+      continue;
+    }
+    for (const [locale, name] of [['si', names[0]], ['ta', names[1]]]) {
+      if (await strapi.documents(uid).findOne({ documentId: partner.documentId, locale })) {
+        counts.kept += 1;
+        continue;
+      }
+      const data = { name, presidentName: partner.presidentName, secretaryName: partner.secretaryName };
+      await strapi.documents(uid).update({ documentId: partner.documentId, locale, data });
+      counts.added += 1;
+      console.log(`added   ${locale} ${partner.name}`);
+    }
+  }
+  console.log(`translated ${uid} (${counts.added} added, ${counts.kept} already there)`);
+};
+
+// President / secretary names in Sinhala and Tamil script, built word by word so a name is spelled
+// the same everywhere: [Sinhala, Tamil]. Please have the spellings checked by someone who knows them.
+const nameWords = {
+  Aathif: ['ආතිෆ්', 'ஆதிஃப்'], Abdul: ['අබ්දුල්', 'அப்துல்'], Ajmal: ['අජ්මල්', 'அஜ்மல்'], Akram: ['අක්‍රම්', 'அக்ரம்'],
+  Aman: ['අමාන්', 'அமான்'], Ameen: ['අමීන්', 'அமீன்'], Aneef: ['අනීෆ්', 'அனீஃப்'], Arshad: ['අර්ෂාද්', 'அர்ஷாத்'],
+  Ashraq: ['අෂ්රක්', 'அஷ்ரக்'], Aslam: ['අස්ලම්', 'அஸ்லம்'], Asmi: ['අස්මි', 'அஸ்மி'], Azeem: ['අසීම්', 'அஸீம்'],
+  Buhari: ['බුහාරි', 'புஹாரி'], Faham: ['ෆහාම්', 'ஃபஹாம்'], Fahim: ['ෆහීම්', 'ஃபஹீம்'], Fahis: ['ෆහීස්', 'ஃபஹீஸ்'],
+  Fairoos: ['ෆයිරූස්', 'ஃபைரூஸ்'], Fais: ['ෆයිස්', 'ஃபைஸ்'], Faizar: ['ෆයිසාර්', 'ஃபைஸார்'], Faleel: ['ෆලීල්', 'ஃபலீல்'],
+  Fasly: ['ෆස්ලි', 'ஃபஸ்லி'], Fasmi: ['ෆස්මි', 'ஃபஸ்மி'], Firthous: ['ෆිර්දවුස්', 'ஃபிர்தௌஸ்'], Fowsul: ['ෆව්සුල්', 'ஃபௌசுல்'],
+  Haafiz: ['හාෆිස්', 'ஹாஃபிழ்'], Hafeel: ['හාෆීල්', 'ஹாஃபீல்'], Haji: ['හාජි', 'ஹாஜி'], Hajiyar: ['හාජියාර්', 'ஹாஜியார்'],
+  Hameed: ['හමීද්', 'ஹமீத்'], Haq: ['හක්', 'ஹக்'], Haris: ['හාරිස්', 'ஹாரிஸ்'], Haroon: ['හාරූන්', 'ஹாரூன்'],
+  Hashimdeen: ['හාෂිම්දීන්', 'ஹாஷிம்தீன்'], Hussain: ['හුසේන්', 'ஹுசைன்'], Ibrahim: ['ඉබ්රාහිම්', 'இப்ராஹிம்'],
+  Iftikhar: ['ඉෆ්තිකාර්', 'இஃப்திகார்'], Ihsan: ['ඉහ්සාන්', 'இஹ்ஸான்'], Imam: ['ඉමාම්', 'இமாம்'],
+  Imthiyas: ['ඉම්තියාස්', 'இம்தியாஸ்'], Inthiyas: ['ඉන්තියාස්', 'இந்தியாஸ்'], Irshad: ['ඉර්ෂාද්', 'இர்ஷாத்'],
+  Ismail: ['ඉස්මයිල්', 'இஸ்மாயில்'], Jabbar: ['ජබ්බාර්', 'ஜப்பார்'], Janoon: ['ජනූන්', 'ஜனூன்'], Jawfer: ['ජව්ෆර්', 'ஜௌஃபர்'],
+  Jesmin: ['ජෙස්මින්', 'ஜெஸ்மின்'], Kaleel: ['කලීල්', 'கலீல்'], Kuraisi: ['කුරෙයිසි', 'குரைசி'], Laafir: ['ලාෆිර්', 'லாஃபிர்'],
+  Maajid: ['මාජිද්', 'மாஜித்'], Mahzoom: ['මහ්සූම්', 'மஹ்ஸூம்'], Majeed: ['මජීද්', 'மஜீத்'], Manaf: ['මනාෆ්', 'மனாஃப்'],
+  Mansoor: ['මන්සූර්', 'மன்சூர்'], Marsook: ['මර්සූක්', 'மர்சூக்'], Moulavi: ['මවුලවි', 'மௌலவி'], Mufthi: ['මුෆ්ති', 'முஃப்தி'],
+  Munawaar: ['මුනව්වර්', 'முனவ்வர்'], Munawwar: ['මුනව්වර්', 'முனவ்வர்'], Mursith: ['මුර්සිත්', 'முர்சித்'],
+  Nafar: ['නෆාර්', 'நஃபார்'], Nasar: ['නසාර්', 'நஸார்'], Naseer: ['නසීර්', 'நஸீர்'], Nawas: ['නවාස්', 'நவாஸ்'],
+  Nawfar: ['නව්ෆර්', 'நௌஃபர்'], Nayeem: ['නයීම්', 'நயீம்'], Neemathullah: ['නීමතුල්ලා', 'நீமத்துல்லாஹ்'], Nihar: ['නිහාර්', 'நிஹார்'],
+  Niyas: ['නියාස්', 'நியாஸ்'], Niyasdeen: ['නියාස්දීන්', 'நியாஸ்தீன்'], Nusrath: ['නුස්රත්', 'நுஸ்ரத்'], Phi: ['ෆයි', 'ஃபை'],
+  Rafaideen: ['රෆායිදීන්', 'ரஃபாய்தீன்'], Raheem: ['රහීම්', 'ரஹீம்'], Ramees: ['රමීස්', 'ரமீஸ்'], Ramsan: ['රම්සාන්', 'ரம்ஸான்'],
+  Ramzeen: ['රම්සීන්', 'ரம்ஸீன்'], Rashard: ['රෂාඩ්', 'ரஷாட்'], Raslan: ['රස්ලාන්', 'ரஸ்லான்'], Rauf: ['රවුෆ්', 'ரவூஃப்'],
+  Rifas: ['රිෆාස්', 'ரிஃபாஸ்'], Rimsath: ['රිම්සාත්', 'ரிம்ஸாத்'], Rislan: ['රිස්ලාන්', 'ரிஸ்லான்'], Rismi: ['රිස්මි', 'ரிஸ்மி'],
+  Rismy: ['රිස්මි', 'ரிஸ்மி'], Riswan: ['රිස්වාන්', 'ரிஸ்வான்'], Riyal: ['රියාල්', 'ரியால்'], Riyas: ['රියාස්', 'ரியாஸ்'],
+  Riyasdeen: ['රියාස්දීන්', 'ரியாஸ்தீன்'], Rizan: ['රිසාන්', 'ரிஸான்'], Rizvi: ['රිස්වි', 'ரிஸ்வி'], Sadhir: ['සාදිර්', 'ஸாதிர்'],
+  Salam: ['සලාම්', 'ஸலாம்'], Sanoon: ['සනූන්', 'ஸனூன்'], Shaheebullah: ['ෂහීබුල්ලා', 'ஷஹீபுல்லாஹ்'], Shiyam: ['ෂියාම්', 'ஷியாம்'],
+  Siyaul: ['සියාවුල්', 'ஸியாவுல்'], Sulaiman: ['සුලෙයිමාන්', 'ஸுலைமான்'], Thahir: ['තාහිර්', 'தாஹிர்'], Thariq: ['තාරික්', 'தாரிக்'],
+  Thariqshad: ['තාරික්ෂාද්', 'தாரிக்ஷாத்'], Usman: ['උස්මාන්', 'உஸ்மான்'], Yaasir: ['යාසිර්', 'யாஸிர்'], Yesir: ['යෙසිර්', 'யெஸிர்'],
+};
+const nameInitials = {
+  A: ['ඒ', 'ஏ'], H: ['එච්', 'எச்'], K: ['කේ', 'கே'], M: ['එම්', 'எம்'], R: ['ආර්', 'ஆர்'], S: ['එස්', 'எஸ்'],
+};
+const nameRoles = {
+  Treasurer: ['භාණ්ඩාගාරික', 'பொருளாளர்'],
+  'Vice Chairman': ['උප සභාපති', 'உப தலைவர்'],
+  Coordinator: ['සම්බන්ධීකාරක', 'ஒருங்கிணைப்பாளர்'],
+  'Unani Doctor': ['යුනානි වෛද්‍ය', 'யூனானி வைத்தியர்'],
+};
+
+// "M.A.M. Nusrath Hajiyar (Treasurer)" in Sinhala (0) or Tamil (1); null if any part is unknown.
+const transliterateName = (name, index) => {
+  const [, base, role] = name.trim().match(/^(.*?)\s*(?:\((.+)\))?$/);
+  const words = base.split(/\s+/).map((word) =>
+    /^([A-Z]\.)+$/.test(word)
+      ? word
+          .slice(0, -1)
+          .split('.')
+          .map((letter) => nameInitials[letter]?.[index] && `${nameInitials[letter][index]}.`)
+          .reduce((all, part) => (all === null || !part ? null : all + part), '')
+      : nameWords[word]?.[index] ?? null,
+  );
+  const roleText = role === undefined ? '' : nameRoles[role]?.[index];
+  if (words.includes(null) || roleText === undefined) return null;
+  return words.join(' ') + (roleText ? ` (${roleText})` : '');
+};
+
+// Writes the president / secretary names in Sinhala and Tamil script (npm run seed -- --translate-names).
+// A name an editor has already changed in that language is kept; an unknown name stays in English.
+const translatePartnerNames = async (strapi) => {
+  const uid = 'api::partner.partner';
+  const partners = await strapi.documents(uid).findMany({ locale: 'en', limit: 1000 });
+  console.log(`found   ${partners.length} English partner societies`);
+  const unknown = new Set();
+  let updated = 0;
+  for (const partner of partners) {
+    for (const [index, locale] of ['si', 'ta'].entries()) {
+      const current = await strapi.documents(uid).findOne({ documentId: partner.documentId, locale });
+      if (!current) continue;
+      const data = {};
+      for (const field of ['presidentName', 'secretaryName']) {
+        const english = partner[field]?.trim();
+        if (!english || current[field]?.trim() !== english) continue;
+        const translated = transliterateName(english, index);
+        if (translated) data[field] = translated;
+        else unknown.add(english);
+      }
+      if (Object.keys(data).length === 0) continue;
+      await strapi.documents(uid).update({ documentId: partner.documentId, locale, data });
+      updated += 1;
+      console.log(`updated ${locale} ${partner.name}`);
+    }
+  }
+  console.log(`translated names (${updated} entries updated)`);
+  for (const name of unknown) console.log(`        left in English: ${name}`);
+};
+
+// Saving content tells the website to regenerate after a short debounce (src/revalidate.ts);
+// stay up long enough for that call to finish.
+const waitForWebsite = async (strapi) => {
+  console.log('waiting for the website to regenerate...');
+  strapi.log.level = 'info';
+  await new Promise((resolve) => setTimeout(resolve, 45_000));
+};
+
 const main = async () => {
   const app = await createStrapi(await compileStrapi()).load();
   app.log.level = 'error';
@@ -859,11 +1061,17 @@ const main = async () => {
     // Overwrites the legal pages with the text above, whatever they contain now. Nothing else runs.
     if (process.argv.includes('--replace-legal')) {
       await seedLegalPages(app, { replace: true });
-      // Publishing tells the website to regenerate after a short debounce (src/revalidate.ts);
-      // stay up long enough for that call to finish.
-      console.log('waiting for the website to regenerate...');
-      app.log.level = 'info';
-      await new Promise((resolve) => setTimeout(resolve, 45_000));
+      await waitForWebsite(app);
+      return;
+    }
+    if (process.argv.includes('--translate-partners')) {
+      await translatePartners(app);
+      await waitForWebsite(app);
+      return;
+    }
+    if (process.argv.includes('--translate-names')) {
+      await translatePartnerNames(app);
+      await waitForWebsite(app);
       return;
     }
     await seedGlobal(app);
